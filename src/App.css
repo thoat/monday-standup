@@ -2,31 +2,31 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+button {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.card {
+  margin: 7.5px;
+  width: 150px;
+  height: 75px;
+  border-radius: 7%;
+  font-size: calc(5px + 2vmin);
+}
+
+.command-btn {
+  margin: 7.5px;
+  padding: 7.5px;
+  background-color: green;
   color: white;
+  font-size: calc(3px + 2vmin);
+  float: right;
 }
 
-.App-link {
-  color: #61dafb;
+button {
+  cursor: pointer
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button:disabled, .card-zone__paired .card {
+  pointer-events: none;
 }
