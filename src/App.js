@@ -1,13 +1,27 @@
+// TODO: writing tests!
+// TODO: for addMember and removeMember, will want to save (aka replace) the data file, not just replace the app's state variable.
+// TODO: re-order the imports and constants alphabetically
+// TODO: debug why an empty card would render out of place
+
 import React, { Component } from 'react'
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css' // TODO: edit this file to style the dialog box: https://github.com/GA-MO/react-confirm-alert/blob/master/src/react-confirm-alert.css
 import './App.css'
 import config from './config'
 import { getCardColors } from './helper-color'
 import { yieldThePairs } from './helper-pairing'
+import shortid from 'shortid'
+
+function createNewProfile(target) {
+  return {...target, id: shortid.generate()}
+}
 
 const MODE_START = "unpaired"
 const MODE_PAIRED = "paired"
 const MODE_REMOVE = "remove"
 const COLOR_ABSENT = ["#999999", "#999999"] // grey
+
+const TEAMS = [...new Set(config.members.map(member => member.team))]
 
 class SiteInstruction extends Component {
   render() {
@@ -19,6 +33,79 @@ class SiteInstruction extends Component {
     return (
       <div>
         <h2>{instructionText}</h2>
+      </div>
+    )
+  }
+}
+
+class MemberIntakeForm extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      personName: '',
+      team: this.props.options[0]
+    }
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleClose = this.handleClose.bind(this)
+  }
+
+  resetState() {
+    this.setState({ personName: '', team: this.props.options[0] })
+  }
+
+  handleInputChange(e) {
+    const attribute = e.target.name
+    const newValue = e.target.value
+    this.setState({ [attribute]: newValue  })
+    // console.log([attribute, newValue])
+  }
+
+  handleSubmit(e) {
+    if (!this.state.personName) {
+      // empty name aka form is invalid! so we do nothing
+      return;
+    }
+    this.props.onSubmit(this.state)
+    e.preventDefault()
+    this.resetState()
+  }
+
+  handleClose(e) {
+    this.props.onClose()
+    e.preventDefault()
+    this.resetState()
+  }
+
+  render() {
+    let options = this.props.options.map(opt =>
+      <option key={opt.id} value={opt.name}>{opt.name}</option>)
+    let showOrNot =
+      this.props.open ? "modal display-block" : "modal display-none"
+    return (
+      <div className={showOrNot}>
+        <form>
+          <label>Name:</label>
+          <input
+            name="personName"
+            type="text"
+            required
+            value={this.state.personName}
+            onChange={this.handleInputChange} />
+          <br />
+          <label>Team:</label>
+          <select
+            name="team"
+            value={this.state.team}
+            onChange={this.handleInputChange}>
+            {options}
+          </select>
+          <br />
+          <div className="form-button-group">
+            <button onClick={this.handleSubmit}>Save</button>
+            <button onClick={this.handleClose}>Cancel</button>
+          </div>
+        </form>
       </div>
     )
   }
@@ -54,8 +141,7 @@ class Card extends Component {
       <button
         className="card"
         onClick={this.handleOnClick}
-        style={colorStyle}
-      >
+        style={colorStyle} >
         {personName}
       </button>
     )
@@ -65,7 +151,11 @@ class Card extends Component {
 class CardDisplayFrame extends Component {
   constructor(props) {
     super(props)
-    this.state = { cardArray: config.members, cardPairs: [] }
+    this.state = {
+      cardArray: config.members.map(member => createNewProfile(member)),
+      teamNames: TEAMS.map(team => createNewProfile({'name': team})),
+      cardPairs: [],
+      formOpen: false }
     this.toggleAbsent = this.toggleAbsent.bind(this)
     this.removeCard = this.removeCard.bind(this)
     this.addMember = this.addMember.bind(this)
@@ -73,6 +163,8 @@ class CardDisplayFrame extends Component {
     this.cancelRemove = this.cancelRemove.bind(this)
     this.pairCards = this.pairCards.bind(this)
     this.unpairCards = this.unpairCards.bind(this)
+    this.handleMemberIntake = this.handleMemberIntake.bind(this)
+    this.handleFormClose = this.handleFormClose.bind(this)
   }
 
   // since the argument "this.props" is passed into Card.handleOnClick(), "e" corresponds to the Card object rather than an event or the <button/> element
@@ -85,15 +177,33 @@ class CardDisplayFrame extends Component {
 
   // since the argument "this.props" is passed into Card.handleOnClick(), "e" corresponds to the Card object rather than an event or the <button/> element
   removeCard(e) {
-    let updatedCardArray = [...this.state.cardArray]
-    let targetIndex = updatedCardArray.indexOf(e.person)
-    updatedCardArray.splice(targetIndex, 1)
-    this.setState({ cardArray: updatedCardArray })
+    confirmAlert({
+      title: "",
+      message: "Are you sure you want to remove " + e.person.personName + "?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            let updatedCardArray = [...this.state.cardArray]
+            let targetIndex = updatedCardArray.indexOf(e.person)
+            updatedCardArray.splice(targetIndex, 1)
+            this.setState({ cardArray: updatedCardArray })
+              // TODO: how to make this run after state has been updated & rendered?
+              // .then(window.alert(e.person.personName + " has been removed from the team."))
+          }
+        },
+        {
+          label: "No",
+          onClick: () => null
+        }
+      ]
+    })
   }
 
   pairCards() {
     let result = yieldThePairs(this.state.cardArray)
-    this.setState({ cardPairs: result })
+    let resultWithIds = result.map(pair => createNewProfile(pair))
+    this.setState({ cardPairs: resultWithIds })
     this.props.onModeSwitch(MODE_PAIRED)
   }
 
@@ -102,7 +212,18 @@ class CardDisplayFrame extends Component {
   }
 
   addMember() {
-    // TODO
+    this.setState({ formOpen: true })
+  }
+
+  handleMemberIntake(values) {
+    let updatedCardArray = [...this.state.cardArray]
+    let newMember = {...values, isAbsent: false}
+    updatedCardArray.push(newMember)
+    this.setState({ cardArray: updatedCardArray, formOpen: false })
+  }
+
+  handleFormClose() {
+    this.setState({ formOpen: false })
   }
 
   enterRemove() {
@@ -119,7 +240,7 @@ class CardDisplayFrame extends Component {
     switch(appMode) {
       case MODE_START:
       cards = cards.map(card =>
-        <Card key={card.personName} person={card} onClick={this.toggleAbsent}/>
+        <Card key={card.id} person={card} onClick={this.toggleAbsent}/>
       )
         return (
           <div>
@@ -127,11 +248,12 @@ class CardDisplayFrame extends Component {
             <button className="command-btn" type="button" onClick={this.pairCards}>Pair Up!</button>
             <button className="command-btn" type="button" onClick={this.addMember}>Add Member</button>
             <button className="command-btn" type="button" onClick={this.enterRemove}>Remove Member</button>
+            <MemberIntakeForm open={this.state.formOpen} options={this.state.teamNames} onSubmit={this.handleMemberIntake} onClose={this.handleFormClose}/>
         </div>
         )
       case MODE_PAIRED:
         cards = this.state.cardPairs.map(pair =>
-          <div className="card-pair-block" key={pair.card1.personName} style={{display: "block"}}>
+          <div className="card-pair-block" key={pair.id} style={{display: "block"}}>
             <Card person={pair.card1} />
             <Card person={pair.card2} />
           </div>
@@ -145,7 +267,7 @@ class CardDisplayFrame extends Component {
         )
       case MODE_REMOVE:
         cards = cards.map(card =>
-          <Card key={card.personName} person={card} onClick={this.removeCard}/>
+          <Card key={card.id} person={card} onClick={this.removeCard}/>
         )
         return (
           <div>
