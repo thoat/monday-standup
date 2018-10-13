@@ -7,9 +7,9 @@ A simple web app to facilitate the weekly stand-up meetings at UNICEF Office of 
 Features available:
 
 - Mark a member absent or present
-- Remove a member
 - Pair up: put two members from two different teams together
-- *TODO: Add a member*
+- Remove a member (data not yet persistent after app reload)
+- Add a member (data not yet persistent after app reload)
 
 ### Install and run
 

@@ -1,10 +1,10 @@
 module.exports = {
   members: [
-    {personName: "Victoria", team: "Data Science", isAbsent: false},
-    {personName: "Doug", team: "Data Science", isAbsent: false},
-    {personName: "Eugene", team: "Data Science", isAbsent: false},
-    {personName: "Hannah", team: "Data Science", isAbsent: false},
-    {personName: "Hoang", team: "Data Science", isAbsent: false},
+    {personName: "Victoria", team: "Science", isAbsent: false},
+    {personName: "Doug", team: "Science", isAbsent: false},
+    {personName: "Eugene", team: "Science", isAbsent: false},
+    {personName: "Hannah", team: "Science", isAbsent: false},
+    {personName: "Hoang", team: "Science", isAbsent: false},
     {personName: "Helen", team: "Dev", isAbsent: false},
     {personName: "Henry", team: "Dev", isAbsent: false},
     {personName: "Kaity", team: "Dev", isAbsent: false},
