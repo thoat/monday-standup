@@ -1,6 +1,6 @@
 export function getCardColors(team) {
   switch(team) {
-    case "Data Science": return COLOR_DS
+    case "Science": return COLOR_DS
     case "Dev": return COLOR_DEV
     case "Design": return COLOR_DESIGN
     case "Comms": return COLOR_COMMS
@@ -9,7 +9,6 @@ export function getCardColors(team) {
     case "Blockchain": return COLOR_BLKCH
     case "Fund": return COLOR_FUND
     case "VR/Events": return COLOR_VR
-    case "PM": return COLOR_PM
     case "Others/Visitors": return COLOR_OTHER
     default: return COLOR_ABSENT
   }
@@ -24,6 +23,8 @@ const COLOR_PARTNER = ["#ffcc99", "#ff9900"] // orange
 const COLOR_BLKCH = ["#99ffcc", "#009966"] // lime green
 const COLOR_FUND = ["#ccccff", "#663399"] // lavender
 const COLOR_VR = ["#99ff33", "#66cc00"] // green
-const COLOR_PM = ["#9edfdf", "#339999"] // soft cyan
 const COLOR_OTHER = ["#dddddd", "#dddddd"] // silver
 const COLOR_ABSENT = ["#999999", "#999999"] // grey
+
+// Other great colors if needed:
+// const COLOR_ = ["#9edfdf", "#339999"] // soft cyan

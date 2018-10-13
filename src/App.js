@@ -1,28 +1,34 @@
 // TODO: writing tests!
 // TODO: for addMember and removeMember, will want to save (aka replace) the data file, not just replace the app's state variable.
-// TODO: re-order the imports and constants alphabetically
-// TODO: debug why an empty card would render out of place
+// TODO: re-order the methods inside CardDisplayFrame, either semantically or alphabetically
 
-import React, { Component } from 'react'
+// === Third-party modules ===
 import { confirmAlert } from 'react-confirm-alert'
-import 'react-confirm-alert/src/react-confirm-alert.css' // TODO: edit this file to style the dialog box: https://github.com/GA-MO/react-confirm-alert/blob/master/src/react-confirm-alert.css
+import React, { Component } from 'react'
+import shortid from 'shortid'
+
+// === Stylesheets ===
 import './App.css'
+import 'react-confirm-alert/src/react-confirm-alert.css' // TODO: edit this file to style the dialog box: https://github.com/GA-MO/react-confirm-alert/blob/master/src/react-confirm-alert.css
+
+// === Custom helpers ===
 import config from './config'
 import { getCardColors } from './helper-color'
 import { yieldThePairs } from './helper-pairing'
-import shortid from 'shortid'
 
+// === Constants and global functions ===
 function createNewProfile(target) {
   return {...target, id: shortid.generate()}
 }
-
+let teams = config.members.map(member => member.team)
+teams.push("Others/Visitors")
+const TEAMS = [...new Set(teams)]
 const MODE_START = "unpaired"
 const MODE_PAIRED = "paired"
 const MODE_REMOVE = "remove"
 const COLOR_ABSENT = ["#999999", "#999999"] // grey
 
-const TEAMS = [...new Set(config.members.map(member => member.team))]
-
+// ============ START OF APP =======================
 class SiteInstruction extends Component {
   render() {
     let appMode = this.props.appMode
@@ -42,7 +48,7 @@ class MemberIntakeForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      personName: '',
+      personName: "",
       team: this.props.options[0]
     }
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -51,7 +57,7 @@ class MemberIntakeForm extends Component {
   }
 
   resetState() {
-    this.setState({ personName: '', team: this.props.options[0] })
+    this.setState({ personName: "", team: this.props.options[0] })
   }
 
   handleInputChange(e) {
@@ -123,12 +129,11 @@ class Card extends Component {
 
   render() {
     if (!this.props.person) // render a white card if no profile associated
-      return  (
+      return (
         <button
           className="card"
           onClick={this.handleOnClick}
-          style={{backgroundColor: "white", borderColor: "black"}}
-        />
+          style={{backgroundColor: "white", borderColor: "black"}} />
       )
     let { personName, team, isAbsent } = this.props.person
     let [fillColor, borderColor] = isAbsent ? COLOR_ABSENT : getCardColors(team)
@@ -153,7 +158,7 @@ class CardDisplayFrame extends Component {
     super(props)
     this.state = {
       cardArray: config.members.map(member => createNewProfile(member)),
-      teamNames: TEAMS.map(team => createNewProfile({'name': team})),
+      teamNames: TEAMS.map(team => createNewProfile({"name": team})),
       cardPairs: [],
       formOpen: false }
     this.toggleAbsent = this.toggleAbsent.bind(this)

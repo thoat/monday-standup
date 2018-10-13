@@ -24,7 +24,8 @@ button {
 }
 
 button {
-  cursor: pointer
+  cursor: pointer;
+  vertical-align: top;
 }
 
 button:disabled, .card-zone__paired .card {
