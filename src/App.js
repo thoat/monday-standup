@@ -1,9 +1,10 @@
 // TODO: writing tests!
-// TODO: for addMember and removeMember, will want to save (aka replace) the data file, not just replace the app's state variable.
+// TODO: for addMember and removeMember, will want to save (aka replace) the data file, not just replace the app's state variable. Right now, don't know if fs.writeFile is working.
 // TODO: re-order the methods inside CardDisplayFrame, either semantically or alphabetically
 
 // === Third-party modules ===
 import { confirmAlert } from 'react-confirm-alert'
+import fs from 'browserify-fs'
 import React, { Component } from 'react'
 import shortid from 'shortid'
 
@@ -195,6 +196,16 @@ class CardDisplayFrame extends Component {
             this.setState({ cardArray: updatedCardArray })
               // TODO: how to make this run after state has been updated & rendered?
               // .then(window.alert(e.person.personName + " has been removed from the team."))
+            let arrayText = updatedCardArray.map(card => {
+              let { personName, team, isAbsent } = card
+              return { personName, team, isAbsent }
+            })
+            arrayText = JSON.stringify(arrayText)
+            let newContent = "module.exports = {\n\tmembers: " + arrayText + "\n}"
+            console.log(newContent)
+            fs.writeFile("./config-2.js", newContent, (err) => {
+              if (err) throw err
+            })
           }
         },
         {
