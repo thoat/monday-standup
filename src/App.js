@@ -83,8 +83,14 @@ class CardDisplayFrame extends Component {
             arrayText = JSON.stringify(arrayText)
             let newContent = "module.exports = {\n\tmembers: " + arrayText + "\n}"
             console.log(newContent)
-            fs.writeFile("./config-2.js", newContent, (err) => {
-              if (err) throw err
+            fetch('/update', {
+              method: 'POST',
+              body: newContent,
+              headers: {"Content-Type": "application/text", "Accepts": "application/text"}
+            }).then(response => {
+              return response.json()
+            }).then(body => {
+              alert(body.message)
             })
           }
         },
