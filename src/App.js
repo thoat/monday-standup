@@ -23,6 +23,23 @@ import SiteInstruction from './components/SiteInstruction'
 function createNewProfile(target) {
   return {...target, id: shortid.generate()}
 }
+function saveUpdatedData(rawData) {
+  let dataToSave = rawData.map(card => {
+    let { personName, team, isAbsent } = card // to ignore the 'id' property
+    return { personName, team, isAbsent }
+  })
+  let newContent = "const members = " + JSON.stringify(dataToSave) + "\nexport default members"
+  // console.log(newContent)
+  fetch('/update', {
+    method: 'POST',
+    body: newContent,
+    headers: {"Content-Type": "text/plain"}
+  }).then(response => {
+    return response.json()
+  }).then(body => {
+    alert(body.message)
+  })
+}
 const TEAMS = Object.entries(config)
   .filter(entry => entry[0].includes('TEAMSTR')) // filter for config entries that are team names; entry[0] is the key
   .map(entry => entry[1]) // get just the team names; entry[1] is the value
@@ -73,23 +90,7 @@ class CardDisplayFrame extends Component {
             let targetIndex = updatedCardArray.indexOf(e.person)
             updatedCardArray.splice(targetIndex, 1)
             this.setState({ cardArray: updatedCardArray })
-              // TODO: how to make this run after state has been updated & rendered?
-              // .then(window.alert(e.person.personName + " has been removed from the team."))
-            let arrayText = updatedCardArray.map(card => {
-              let { personName, team, isAbsent } = card // to ignore the 'id' property
-              return { personName, team, isAbsent }
-            })
-            let newContent = "const members = " + JSON.stringify(arrayText) + "\nexport default members"
-            console.log(newContent)
-            fetch('/update', {
-              method: 'POST',
-              body: newContent,
-              headers: {"Content-Type": "text/plain"}
-            }).then(response => {
-              return response.json()
-            }).then(body => {
-              alert(body.message)
-            })
+            saveUpdatedData(updatedCardArray)
           }
         },
         {
@@ -110,6 +111,7 @@ class CardDisplayFrame extends Component {
     console.log(newMember)
     updatedCardArray.push(createNewProfile(newMember))
     this.setState({ cardArray: updatedCardArray, formOpen: false })
+    saveUpdatedData(updatedCardArray)
   }
 
   closeForm = () => {
