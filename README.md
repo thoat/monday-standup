@@ -23,6 +23,7 @@ That is for the server. Now open another terminal:
 
 ```
 cp /src/config-sample.js /src/config.js
+cp /src/data-sample.js /src/data.js
 yarn
 yarn start
 ```

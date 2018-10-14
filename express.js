@@ -9,7 +9,7 @@ let textParser = bodyParser.text()
 // POST /update gets text bodies. Test this in Postman extension
 app.post('/update', textParser, (req, res) => {
   console.log(req.body)
-  fs.writeFile("./src/config-2.js", req.body, err => {
+  fs.writeFile("./src/data.js", req.body, err => {
     if (err) res.send({message: 'Could not update data'})
     else res.send({message: 'Data updated!'})
   })
