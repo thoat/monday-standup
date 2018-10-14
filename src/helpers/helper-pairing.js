@@ -51,7 +51,7 @@ Steps:
     save {card1: card1, card2: card2}
 */
 
-import Array from "collections/shim-array" // use this library to utilize its sorted() and peekBack() functions
+import CustomArray from "collections/shim-array" // use this library to utilize its sorted() and peekBack() functions
 
 export function yieldThePairs(memberList) {
   const MEMBERS = memberList
@@ -71,7 +71,7 @@ export function yieldThePairs(memberList) {
 
 // sort team sizes
   let teamIndex =
-    new Array(...Object.entries(teamSizeHash))
+    new CustomArray(...Object.entries(teamSizeHash))
     .sorted((a, b) => b[1] - a[1]) // index 0 stores the team name, index 1 stores the team size; b-a cuz we want to sort decreasingly
     .reduce((hash, elem, idx) => {
       hash[elem[0]] = idx // {key: team name, value: index in the sizeArray}
@@ -84,7 +84,7 @@ export function yieldThePairs(memberList) {
     if (!member.isAbsent) {
       let teamName = member.team
       if (!teams[teamIndex[teamName]])
-        teams[teamIndex[teamName]] = new Array()
+        teams[teamIndex[teamName]] = new CustomArray()
       teams[teamIndex[teamName]].push(member)
     }
   })
