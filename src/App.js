@@ -76,11 +76,10 @@ class CardDisplayFrame extends Component {
               // TODO: how to make this run after state has been updated & rendered?
               // .then(window.alert(e.person.personName + " has been removed from the team."))
             let arrayText = updatedCardArray.map(card => {
-              let { personName, team, isAbsent } = card
+              let { personName, team, isAbsent } = card // to ignore the 'id' property
               return { personName, team, isAbsent }
             })
-            arrayText = JSON.stringify(arrayText)
-            let newContent = "module.exports = {\n\tmembers: " + arrayText + "\n}"
+            let newContent = "const members = " + JSON.stringify(arrayText) + "\nexport default members"
             console.log(newContent)
             fetch('/update', {
               method: 'POST',

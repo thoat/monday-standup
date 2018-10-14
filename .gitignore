@@ -1,4 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# configurations
 /src/config.js
 
 # dependencies
@@ -21,4 +23,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-config-2.js
+# data
+/src/data.js
