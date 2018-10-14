@@ -8,8 +8,8 @@ Features available:
 
 - Mark a member absent or present
 - Pair up: put two members from two different teams together
-- Remove a member (data not yet persistent after app reload)
-- Add a member (data not yet persistent after app reload)
+- Remove a member
+- Add a member
 
 ### Install and run
 
