@@ -10,6 +10,7 @@
     "browserify-fs": "^1.0.0",
     "collections": "^5.1.5",
     "express": "^4.16.4",
+    "nodemon": "^1.18.4",
     "react": "^16.5.2",
     "react-confirm-alert": "^2.0.6",
     "react-dom": "^16.5.2",
@@ -30,5 +31,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "concurrently": "^4.0.1"
+  }
 }
