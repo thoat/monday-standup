@@ -23,13 +23,12 @@ import SiteInstruction from './components/SiteInstruction'
 function createNewProfile(target) {
   return {...target, id: shortid.generate()}
 }
-let teams = config.members.map(member => member.team)
-teams.push("Others/Visitors")
-const TEAMS = [...new Set(teams)]
+const TEAMS = Object.entries(config)
+  .filter(entry => entry[0].includes('TEAMSTR')) // filter for config entries that are team names; entry[0] is the key
+  .map(entry => entry[1]) // get just the team names; entry[1] is the value
 const MODE_START = config.MODE_START
 const MODE_PAIRED = config.MODE_PAIRED
 const MODE_REMOVE = config.MODE_REMOVE
-const COLOR_ABSENT = config.COLOR_ABSENT
 
 // ============ START OF APP =======================
 class CardDisplayFrame extends Component {
