@@ -6,10 +6,10 @@ import React from 'react'
 import config from '../config'
 
 // ============ START OF COMPONENT ==================
-const SiteInstruction = props =>
+const SiteInstruction = ({ appMode }) =>
   <div>
-    <h2>{props.appMode === config.MODE_START && "Click a card to toggle absence"}</h2>
-    <h2>{props.appMode === config.MODE_REMOVE && "Choose card to remove"}</h2>
+    <h2>{appMode === config.MODE_START && "Click a card to toggle absence"}</h2>
+    <h2>{appMode === config.MODE_REMOVE && "Choose card to remove"}</h2>
   </div>
 
 SiteInstruction.propTypes = {

@@ -1,6 +1,5 @@
 // TODO: writing tests!
 // TODO: for addMember and removeMember, will want to save (aka replace) the data file, not just replace the app's state variable. Right now, with members import in config.js, the app will automatically reload after EVERY change to the data.js file. Wonder if this is a desired functionality? If not, how we can prevent app auto-reload and only update the "members" variable until the next manual app load?
-// TODO: re-order the methods inside CardDisplayFrame, either semantically or alphabetically
 // TODO: (optional) deploy to one of the engines e.g. Heroku
 
 // === Dependency imports ===
@@ -77,6 +76,14 @@ class CardDisplayFrame extends Component {
     this.props.onModeSwitch(MODE_START)
   }
 
+  enterRemove = () => {
+    this.props.onModeSwitch(MODE_REMOVE)
+  }
+
+  cancelRemove = () => {
+    this.props.onModeSwitch(MODE_START)
+  }
+
   // since the argument "this.props" is passed into Card.handleOnClick(), "e" corresponds to the Card object rather than an event or the <button/> element
   removeCard = (e) => {
     confirmAlert({
@@ -116,14 +123,6 @@ class CardDisplayFrame extends Component {
 
   closeForm = () => {
     this.setState({ formOpen: false })
-  }
-
-  enterRemove = () => {
-    this.props.onModeSwitch(MODE_REMOVE)
-  }
-
-  cancelRemove = () => {
-    this.props.onModeSwitch(MODE_START)
   }
 
   render() {
