@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const fs = require('fs')
 
 // create application/text parser
-let textParser = bodyParser.text()
+let textParser = bodyParser.text({ type: "text/plain" })
 
 // POST /update gets text bodies. Test this in Postman extension
 app.post('/update', textParser, (req, res) => {
