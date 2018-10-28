@@ -7,9 +7,9 @@ A simple web app to facilitate the weekly stand-up meetings at UNICEF Office of 
 Features available:
 
 - Mark a member absent or present
-- Remove a member
 - Pair up: put two members from two different teams together
-- *TODO: Add a member*
+- Remove a member
+- Add a member
 
 ### Install and run
 
@@ -17,8 +17,9 @@ Clone this GitHub repo, then, in your terminal or command-line interface:
 
 ```
 cp /src/config-sample.js /src/config.js
+cp /src/data-sample.js /src/data.js
 yarn
-yarn start
+yarn dev
 ```
 
 ### Credits
