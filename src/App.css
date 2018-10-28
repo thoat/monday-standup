@@ -87,14 +87,6 @@ button:disabled, .card-zone__paired .card {
   cursor: pointer;
 }
 
-.display-block {
-  display: block
-}
-
-.display-none {
-  display: none
-}
-
 @-webkit-keyframes react-confirm-alert-fadeIn {
   from {
     opacity: 0;

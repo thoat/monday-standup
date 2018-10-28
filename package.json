@@ -2,8 +2,15 @@
   "name": "monday-standup",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3001",
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react": "^6.24.1",
+    "body-parser": "^1.18.3",
+    "browserify-fs": "^1.0.0",
     "collections": "^5.1.5",
+    "express": "^4.16.4",
+    "nodemon": "^1.18.4",
     "react": "^16.5.2",
     "react-confirm-alert": "^2.0.6",
     "react-dom": "^16.5.2",
@@ -14,7 +21,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "client": "yarn start",
+    "server": "nodemon express.js",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -24,5 +34,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "concurrently": "^4.0.1"
+  }
 }

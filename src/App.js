@@ -1,8 +1,8 @@
 // TODO: writing tests!
-// TODO: for addMember and removeMember, will want to save (aka replace) the data file, not just replace the app's state variable.
-// TODO: re-order the methods inside CardDisplayFrame, either semantically or alphabetically
+// TODO: for addMember and removeMember, will want to save (aka replace) the data file, not just replace the app's state variable. Right now, with members import in config.js, the app will automatically reload after EVERY change to the data.js file. Wonder if this is a desired functionality? If not, how we can prevent app auto-reload and only update the "members" variable until the next manual app load?
+// TODO: (optional) deploy to one of the engines e.g. Heroku
 
-// === Third-party modules ===
+// === Dependency imports ===
 import { confirmAlert } from 'react-confirm-alert'
 import React, { Component } from 'react'
 import shortid from 'shortid'
@@ -11,148 +11,42 @@ import shortid from 'shortid'
 import './App.css'
 import 'react-confirm-alert/src/react-confirm-alert.css' // TODO: edit this file to style the dialog box: https://github.com/GA-MO/react-confirm-alert/blob/master/src/react-confirm-alert.css
 
-// === Custom helpers ===
+// === Local imports ===
 import config from './config'
-import { getCardColors } from './helper-color'
-import { yieldThePairs } from './helper-pairing'
+import { yieldThePairs } from './helpers/helper-pairing'
+import Card from './components/Card'
+import MemberIntakeForm from './components/MemberIntakeForm'
+import SiteInstruction from './components/SiteInstruction'
 
 // === Constants and global functions ===
 function createNewProfile(target) {
   return {...target, id: shortid.generate()}
 }
-let teams = config.members.map(member => member.team)
-teams.push("Others/Visitors")
-const TEAMS = [...new Set(teams)]
-const MODE_START = "unpaired"
-const MODE_PAIRED = "paired"
-const MODE_REMOVE = "remove"
-const COLOR_ABSENT = ["#999999", "#999999"] // grey
+function saveUpdatedData(rawData) {
+  let dataToSave = rawData.map(card => {
+    let { personName, team, isAbsent } = card // to ignore the 'id' property
+    return { personName, team, isAbsent }
+  })
+  let newContent = "const members = " + JSON.stringify(dataToSave) + "\nexport default members"
+  // console.log(newContent)
+  fetch('/update', {
+    method: 'POST',
+    body: newContent,
+    headers: {"Content-Type": "text/plain"}
+  }).then(response => {
+    return response.json()
+  }).then(body => {
+    alert(body.message)
+  })
+}
+const TEAMS = Object.entries(config)
+  .filter(entry => entry[0].includes('TEAMSTR')) // filter for config entries that are team names; entry[0] is the key
+  .map(entry => entry[1]) // get just the team names; entry[1] is the value
+const MODE_START = config.MODE_START
+const MODE_PAIRED = config.MODE_PAIRED
+const MODE_REMOVE = config.MODE_REMOVE
 
 // ============ START OF APP =======================
-class SiteInstruction extends Component {
-  render() {
-    let appMode = this.props.appMode
-    let instructionText =
-      appMode === MODE_START ? "Click a card to toggle absence" :
-      appMode === MODE_REMOVE ? "Choose card to remove" :
-      ""
-    return (
-      <div>
-        <h2>{instructionText}</h2>
-      </div>
-    )
-  }
-}
-
-class MemberIntakeForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      personName: "",
-      team: this.props.options[0]
-    }
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleClose = this.handleClose.bind(this)
-  }
-
-  resetState() {
-    this.setState({ personName: "", team: this.props.options[0] })
-  }
-
-  handleInputChange(e) {
-    const attribute = e.target.name
-    const newValue = e.target.value
-    this.setState({ [attribute]: newValue  })
-    // console.log([attribute, newValue])
-  }
-
-  handleSubmit(e) {
-    if (!this.state.personName) {
-      // empty name aka form is invalid! so we do nothing
-      return;
-    }
-    this.props.onSubmit(this.state)
-    e.preventDefault()
-    this.resetState()
-  }
-
-  handleClose(e) {
-    this.props.onClose()
-    e.preventDefault()
-    this.resetState()
-  }
-
-  render() {
-    let options = this.props.options.map(opt =>
-      <option key={opt.id} value={opt.name}>{opt.name}</option>)
-    let showOrNot =
-      this.props.open ? "modal display-block" : "modal display-none"
-    return (
-      <div className={showOrNot}>
-        <form>
-          <label>Name:</label>
-          <input
-            name="personName"
-            type="text"
-            required
-            value={this.state.personName}
-            onChange={this.handleInputChange} />
-          <br />
-          <label>Team:</label>
-          <select
-            name="team"
-            value={this.state.team}
-            onChange={this.handleInputChange}>
-            {options}
-          </select>
-          <br />
-          <div className="form-button-group">
-            <button onClick={this.handleSubmit}>Save</button>
-            <button onClick={this.handleClose}>Cancel</button>
-          </div>
-        </form>
-      </div>
-    )
-  }
-}
-
-class Card extends Component {
-  constructor(props) {
-    super(props)
-    this.handleOnClick = this.handleOnClick.bind(this)
-  }
-
-  handleOnClick() {
-    this.props.onClick(this.props)
-  }
-
-  render() {
-    if (!this.props.person) // render a white card if no profile associated
-      return (
-        <button
-          className="card"
-          onClick={this.handleOnClick}
-          style={{backgroundColor: "white", borderColor: "black"}} />
-      )
-    let { personName, team, isAbsent } = this.props.person
-    let [fillColor, borderColor] = isAbsent ? COLOR_ABSENT : getCardColors(team)
-    let colorStyle = {
-      backgroundColor: fillColor,
-      borderColor: borderColor,
-      color: isAbsent ? "grey" : "black"
-    }
-    return (
-      <button
-        className="card"
-        onClick={this.handleOnClick}
-        style={colorStyle} >
-        {personName}
-      </button>
-    )
-  }
-}
-
 class CardDisplayFrame extends Component {
   constructor(props) {
     super(props)
@@ -161,27 +55,37 @@ class CardDisplayFrame extends Component {
       teamNames: TEAMS.map(team => createNewProfile({"name": team})),
       cardPairs: [],
       formOpen: false }
-    this.toggleAbsent = this.toggleAbsent.bind(this)
-    this.removeCard = this.removeCard.bind(this)
-    this.addMember = this.addMember.bind(this)
-    this.enterRemove = this.enterRemove.bind(this)
-    this.cancelRemove = this.cancelRemove.bind(this)
-    this.pairCards = this.pairCards.bind(this)
-    this.unpairCards = this.unpairCards.bind(this)
-    this.handleMemberIntake = this.handleMemberIntake.bind(this)
-    this.handleFormClose = this.handleFormClose.bind(this)
   }
 
   // since the argument "this.props" is passed into Card.handleOnClick(), "e" corresponds to the Card object rather than an event or the <button/> element
-  toggleAbsent(e) {
+  toggleAbsent = (e) => {
     let updatedCardArray = [...this.state.cardArray]
     let targetIndex = updatedCardArray.indexOf(e.person)
     updatedCardArray[targetIndex].isAbsent = !e.person.isAbsent
     this.setState({ cardArray: updatedCardArray })
   }
 
+  pairCards = () => {
+    let result = yieldThePairs(this.state.cardArray)
+    let resultWithIds = result.map(pair => createNewProfile(pair))
+    this.setState({ cardPairs: resultWithIds })
+    this.props.onModeSwitch(MODE_PAIRED)
+  }
+
+  unpairCards = () => {
+    this.props.onModeSwitch(MODE_START)
+  }
+
+  enterRemove = () => {
+    this.props.onModeSwitch(MODE_REMOVE)
+  }
+
+  cancelRemove = () => {
+    this.props.onModeSwitch(MODE_START)
+  }
+
   // since the argument "this.props" is passed into Card.handleOnClick(), "e" corresponds to the Card object rather than an event or the <button/> element
-  removeCard(e) {
+  removeCard = (e) => {
     confirmAlert({
       title: "",
       message: "Are you sure you want to remove " + e.person.personName + "?",
@@ -193,8 +97,7 @@ class CardDisplayFrame extends Component {
             let targetIndex = updatedCardArray.indexOf(e.person)
             updatedCardArray.splice(targetIndex, 1)
             this.setState({ cardArray: updatedCardArray })
-              // TODO: how to make this run after state has been updated & rendered?
-              // .then(window.alert(e.person.personName + " has been removed from the team."))
+            saveUpdatedData(updatedCardArray)
           }
         },
         {
@@ -205,38 +108,21 @@ class CardDisplayFrame extends Component {
     })
   }
 
-  pairCards() {
-    let result = yieldThePairs(this.state.cardArray)
-    let resultWithIds = result.map(pair => createNewProfile(pair))
-    this.setState({ cardPairs: resultWithIds })
-    this.props.onModeSwitch(MODE_PAIRED)
-  }
-
-  unpairCards() {
-    this.props.onModeSwitch(MODE_START)
-  }
-
-  addMember() {
+  addMember = () => {
     this.setState({ formOpen: true })
   }
 
-  handleMemberIntake(values) {
+  handleMemberIntake = (values) => {
     let updatedCardArray = [...this.state.cardArray]
     let newMember = {...values, isAbsent: false}
-    updatedCardArray.push(newMember)
+    console.log(newMember)
+    updatedCardArray.push(createNewProfile(newMember))
     this.setState({ cardArray: updatedCardArray, formOpen: false })
+    saveUpdatedData(updatedCardArray)
   }
 
-  handleFormClose() {
+  closeForm = () => {
     this.setState({ formOpen: false })
-  }
-
-  enterRemove() {
-    this.props.onModeSwitch(MODE_REMOVE)
-  }
-
-  cancelRemove() {
-    this.props.onModeSwitch(MODE_START)
   }
 
   render() {
@@ -253,7 +139,9 @@ class CardDisplayFrame extends Component {
             <button className="command-btn" type="button" onClick={this.pairCards}>Pair Up!</button>
             <button className="command-btn" type="button" onClick={this.addMember}>Add Member</button>
             <button className="command-btn" type="button" onClick={this.enterRemove}>Remove Member</button>
-            <MemberIntakeForm open={this.state.formOpen} options={this.state.teamNames} onSubmit={this.handleMemberIntake} onClose={this.handleFormClose}/>
+            <div>{this.state.formOpen && (
+              <MemberIntakeForm options={this.state.teamNames} onSubmit={this.handleMemberIntake} onClose={this.closeForm}/>
+            )}</div>
         </div>
         )
       case MODE_PAIRED:
@@ -290,10 +178,9 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = { appMode: MODE_START }
-    this.handleModeSwitch = this.handleModeSwitch.bind(this)
   }
 
-  handleModeSwitch(newMode) {
+  handleModeSwitch = (newMode) => {
     this.setState({ appMode: newMode })
   }
 
