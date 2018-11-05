@@ -20,7 +20,7 @@ import SiteInstruction from './components/SiteInstruction'
 
 // === Constants and global functions ===
 function createNewProfile(target) {
-  return {...target, id: shortid.generate()}
+  return { ...target, id: shortid.generate() }
 }
 function saveUpdatedData(rawData) {
   let dataToSave = rawData.map(card => {
@@ -32,7 +32,7 @@ function saveUpdatedData(rawData) {
   fetch('/update', {
     method: 'POST',
     body: newContent,
-    headers: {"Content-Type": "text/plain"}
+    headers: { "Content-Type": "text/plain" }
   }).then(response => {
     return response.json()
   }).then(body => {
@@ -52,9 +52,10 @@ class CardDisplayFrame extends Component {
     super(props)
     this.state = {
       cardArray: config.members.map(member => createNewProfile(member)),
-      teamNames: TEAMS.map(team => createNewProfile({"name": team})),
+      teamNames: TEAMS.map(team => createNewProfile({ "name": team })),
       cardPairs: [],
-      formOpen: false }
+      formOpen: false
+    }
   }
 
   // since the argument "this.props" is passed into Card.handleOnClick(), "e" corresponds to the Card object rather than an event or the <button/> element
@@ -114,7 +115,7 @@ class CardDisplayFrame extends Component {
 
   handleMemberIntake = (values) => {
     let updatedCardArray = [...this.state.cardArray]
-    let newMember = {...values, isAbsent: false}
+    let newMember = { ...values, isAbsent: false }
     console.log(newMember)
     updatedCardArray.push(createNewProfile(newMember))
     this.setState({ cardArray: updatedCardArray, formOpen: false })
@@ -128,11 +129,11 @@ class CardDisplayFrame extends Component {
   render() {
     let appMode = this.props.appMode
     let cards = this.state.cardArray
-    switch(appMode) {
+    switch (appMode) {
       case MODE_START:
-      cards = cards.map(card =>
-        <Card key={card.id} person={card} onClick={this.toggleAbsent}/>
-      )
+        cards = cards.map(card =>
+          <Card key={card.id} person={card} onClick={this.toggleAbsent} />
+        )
         return (
           <div>
             <div className="card-zone__start">{cards}</div>
@@ -140,13 +141,13 @@ class CardDisplayFrame extends Component {
             <button className="command-btn" type="button" onClick={this.addMember}>Add Member</button>
             <button className="command-btn" type="button" onClick={this.enterRemove}>Remove Member</button>
             <div>{this.state.formOpen && (
-              <MemberIntakeForm options={this.state.teamNames} onSubmit={this.handleMemberIntake} onClose={this.closeForm}/>
+              <MemberIntakeForm options={this.state.teamNames} onSubmit={this.handleMemberIntake} onClose={this.closeForm} />
             )}</div>
-        </div>
+          </div>
         )
       case MODE_PAIRED:
         cards = this.state.cardPairs.map(pair =>
-          <div className="card-pair-block" key={pair.id} style={{display: "block"}}>
+          <div className="card-pair-block" key={pair.id} style={{ display: "block" }}>
             <Card person={pair.card1} />
             <Card person={pair.card2} />
           </div>
@@ -160,7 +161,7 @@ class CardDisplayFrame extends Component {
         )
       case MODE_REMOVE:
         cards = cards.map(card =>
-          <Card key={card.id} person={card} onClick={this.removeCard}/>
+          <Card key={card.id} person={card} onClick={this.removeCard} />
         )
         return (
           <div>
@@ -189,12 +190,12 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1>OI Monday StandUp</h1>
-          <SiteInstruction appMode={this.state.appMode}/>
+          <SiteInstruction appMode={this.state.appMode} />
         </header>
         <div className="App-body">
           <CardDisplayFrame
             appMode={this.state.appMode}
-            onModeSwitch={this.handleModeSwitch}/>
+            onModeSwitch={this.handleModeSwitch} />
         </div>
       </div>
     )

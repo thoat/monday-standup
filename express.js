@@ -10,8 +10,8 @@ let textParser = bodyParser.text({ type: "text/plain" })
 app.post('/update', textParser, (req, res) => {
   console.log(req.body)
   fs.writeFile("./src/data.js", req.body, err => {
-    if (err) res.send({message: 'Could not update data'})
-    else res.send({message: 'Data updated!'})
+    if (err) res.send({ message: 'Could not update data' })
+    else res.send({ message: 'Data updated!' })
   })
 })
 

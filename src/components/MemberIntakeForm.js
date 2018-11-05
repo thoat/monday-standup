@@ -25,7 +25,8 @@ export default class MemberIntakeForm extends Component {
   resetState() {
     this.setState({
       personName: "",
-      team: this.props.options[0].name }) // options[0] will yield an object {name: ABC, id: DEF} so we here have to extract the field "name"
+      team: this.props.options[0].name
+    }) // options[0] will yield an object {name: ABC, id: DEF} so we here have to extract the field "name"
   }
 
   handleClose = (e) => {
@@ -37,7 +38,7 @@ export default class MemberIntakeForm extends Component {
   handleInputChange = (e) => {
     const attribute = e.target.name
     const newValue = e.target.value
-    this.setState({ [attribute]: newValue  })
+    this.setState({ [attribute]: newValue })
     // console.log([attribute, newValue])
   }
 

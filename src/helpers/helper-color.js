@@ -1,7 +1,7 @@
 import config from '../config'
 
 export function getCardColors(team) {
-  switch(team) {
+  switch (team) {
     case config.TEAMSTR_DS: return config.COLOR_DS
     case config.TEAMSTR_DEV: return config.COLOR_DEV
     case config.TEAMSTR_DESIGN: return config.COLOR_DESIGN
