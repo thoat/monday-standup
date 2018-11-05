@@ -16,7 +16,7 @@ const Card = props => {
       <button
         className="card"
         onClick={handleOnClick}
-        style={{backgroundColor: "white", borderColor: "black"}} />
+        style={{ backgroundColor: "white", borderColor: "black" }} />
     )
   }
   let { personName, team, isAbsent } = props.person

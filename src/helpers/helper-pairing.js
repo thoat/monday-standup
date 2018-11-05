@@ -56,7 +56,7 @@ import CustomArray from "collections/shim-array" // use this library to utilize 
 export function yieldThePairs(memberList) {
   const MEMBERS = memberList
 
-// build the hash of on-site team sizes
+  // build the hash of on-site team sizes
   let numPresentMembers = 0
   let teamSizeHash = MEMBERS.reduce((h, member) => {
     if (!member.isAbsent) {
@@ -69,16 +69,16 @@ export function yieldThePairs(memberList) {
     return h
   }, {})
 
-// sort team sizes
+  // sort team sizes
   let teamIndex =
     new CustomArray(...Object.entries(teamSizeHash))
-    .sorted((a, b) => b[1] - a[1]) // index 0 stores the team name, index 1 stores the team size; b-a cuz we want to sort decreasingly
-    .reduce((hash, elem, idx) => {
-      hash[elem[0]] = idx // {key: team name, value: index in the sizeArray}
-      return hash
-    }, {})
+      .sorted((a, b) => b[1] - a[1]) // index 0 stores the team name, index 1 stores the team size; b-a cuz we want to sort decreasingly
+      .reduce((hash, elem, idx) => {
+        hash[elem[0]] = idx // {key: team name, value: index in the sizeArray}
+        return hash
+      }, {})
 
-// build the arrays of teams
+  // build the arrays of teams
   let teams = []
   MEMBERS.forEach(member => {
     if (!member.isAbsent) {
@@ -89,7 +89,7 @@ export function yieldThePairs(memberList) {
     }
   })
 
-// pairing
+  // pairing
   const INITIAL_PIVOT = 0 // the index of the biggest-sized team
   const INITIAL_HOP = Math.floor(Math.random() * teams.length)
   let pivot = INITIAL_PIVOT
@@ -97,7 +97,7 @@ export function yieldThePairs(memberList) {
   let partner = pivot + INITIAL_HOP
 
   let listOfPairs = []
-  for (let i = 0; i < numPresentMembers/2; i++) {
+  for (let i = 0; i < numPresentMembers / 2; i++) {
     while (!pivotTeam.peekBack()) {
       pivot++
       pivotTeam = teams[pivot]
@@ -114,7 +114,7 @@ export function yieldThePairs(memberList) {
       partnerTeam = teams[partner]
     }
     let card2 = partnerTeam.pop()
-    listOfPairs.push({card1: card1, card2: card2})
+    listOfPairs.push({ card1: card1, card2: card2 })
     // console.log(i, {card1: card1, card2: card2})
   }
   // console.log(listOfPairs)
