@@ -1,8 +1,8 @@
 /*
 INPUT: an array of cards or members
 [
-  {personName: String, team: String, isAbsent: boolean},
-  {personName: String, team: String, isAbsent: boolean},
+  {memberName: String, team: String, isAbsent: boolean},
+  {memberName: String, team: String, isAbsent: boolean},
   ...
 ]
 OUTPUT: an array of pairs. Format like below:
