@@ -19,7 +19,7 @@ const Card = props => {
         style={{ backgroundColor: "white", borderColor: "black" }} />
     )
   }
-  let { personName, team, isAbsent } = props.person
+  let { memberName, team, isAbsent } = props.person
   let [fillColor, borderColor] = isAbsent
     ? config.COLOR_ABSENT
     : getCardColors(team)
@@ -33,7 +33,7 @@ const Card = props => {
       className="card"
       onClick={handleOnClick}
       style={colorStyle} >
-      {personName}
+      {memberName}
     </button>
   )
 }

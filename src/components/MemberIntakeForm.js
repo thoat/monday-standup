@@ -17,14 +17,14 @@ export default class MemberIntakeForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      personName: "",
+      memberName: "",
       team: this.props.options[0].name // options[0] will yield an object {name: ABC, id: DEF} so we here have to extract the field "name"
     }
   }
 
   resetState() {
     this.setState({
-      personName: "",
+      memberName: "",
       team: this.props.options[0].name
     }) // options[0] will yield an object {name: ABC, id: DEF} so we here have to extract the field "name"
   }
@@ -43,8 +43,8 @@ export default class MemberIntakeForm extends Component {
   }
 
   handleSubmit = (e) => {
-    if (!this.state.personName) {
-      // empty name aka form is invalid! so we do nothing
+    if (!this.state.memberName) {
+      // empty name aka form is invalid, so we do nothing
       return;
     }
     this.props.onSubmit(this.state)
@@ -54,19 +54,19 @@ export default class MemberIntakeForm extends Component {
 
   render() {
     let options = this.props.options.map(opt =>
-      <option key={opt.id} value={opt.name}>{opt.name}</option>)
+      <option key={opt.id}>{opt.name}</option>)
     return (
       <div className="modal">
         <form>
-          <label>Name:</label>
+          <label>Name: </label>
           <input
-            name="personName"
+            name="memberName" // this value must be in-sync w/ the property name, or else input won't be recorded
             type="text"
             required
-            value={this.state.personName}
+            value={this.state.memberName}
             onChange={this.handleInputChange} />
           <br />
-          <label>Team:</label>
+          <label>Team: </label>
           <select
             name="team"
             value={this.state.team}

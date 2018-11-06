@@ -24,8 +24,8 @@ function createNewProfile(target) {
 }
 function saveUpdatedData(rawData) {
   let dataToSave = rawData.map(card => {
-    let { personName, team, isAbsent } = card // to ignore the 'id' property
-    return { personName, team, isAbsent }
+    let { memberName, team, isAbsent } = card // to ignore the 'id' property
+    return { memberName, team, isAbsent }
   })
   let newContent = "const members = " + JSON.stringify(dataToSave) + "\nexport default members"
   // console.log(newContent)
@@ -89,7 +89,7 @@ class CardDisplayFrame extends Component {
   removeCard = (e) => {
     confirmAlert({
       title: "",
-      message: "Are you sure you want to remove " + e.person.personName + "?",
+      message: "Are you sure you want to remove " + e.person.memberName + "?",
       buttons: [
         {
           label: "Yes",
