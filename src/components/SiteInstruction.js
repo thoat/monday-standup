@@ -16,8 +16,4 @@ SiteInstruction.propTypes = {
   appMode: PropTypes.string.isRequired
 }
 
-SiteInstruction.defaultProps = {
-  appMode: config.MODE_START
-}
-
 export default SiteInstruction

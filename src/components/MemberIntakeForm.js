@@ -5,13 +5,9 @@ import React, { Component } from 'react'
 // ============ START OF COMPONENT ==================
 export default class MemberIntakeForm extends Component {
   static propTypes = {
-    onClose: PropTypes.func,
-    onSubmit: PropTypes.func,
+    onClose: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     options: PropTypes.array.isRequired
-  }
-
-  static defaultProps = {
-    options: ['Science', 'Dev', 'Design', 'Others/Visitors']
   }
 
   constructor(props) {
