@@ -1,6 +1,6 @@
 import members from './data'
 
-const config = {
+const constants = {
   members: members,
   MODE_START: "unpaired",
   MODE_PAIRED: "paired",
@@ -31,7 +31,7 @@ const config = {
   // Other great colors if needed:
   // COLOR_: ["#9edfdf", "#339999"] // soft cyan
 }
-export default config
+export default constants
 // [
 //   {memberName: "Victoria", team: "Science", isAbsent: false},
 //   {memberName: "Doug", team: "Science", isAbsent: false},
