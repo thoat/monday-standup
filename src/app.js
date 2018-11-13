@@ -8,15 +8,15 @@ import React, { Component } from 'react'
 import shortid from 'shortid'
 
 // === Stylesheets ===
-import './App.css'
+import './app.css'
 import 'react-confirm-alert/src/react-confirm-alert.css' // TODO: edit this file to style the dialog box: https://github.com/GA-MO/react-confirm-alert/blob/master/src/react-confirm-alert.css
 
 // === Local imports ===
 import config from './config'
 import { yieldThePairs } from './helpers/helper-pairing'
-import Card from './components/Card'
-import MemberIntakeForm from './components/MemberIntakeForm'
-import SiteInstruction from './components/SiteInstruction'
+import Card from './components/card'
+import MemberIntakeForm from './components/member-intake-form'
+import SiteInstruction from './components/site-instruction'
 
 // === Constants and global functions ===
 function createNewProfile(target) {
