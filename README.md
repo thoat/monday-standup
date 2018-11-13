@@ -16,7 +16,6 @@ Features available:
 Clone this GitHub repo, then, in your terminal or command-line interface:
 
 ```
-cp /src/config-sample.js /src/config.js
 cp /src/data-sample.js /src/data.js
 yarn
 yarn dev

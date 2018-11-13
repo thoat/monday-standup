@@ -1,17 +1,17 @@
-import config from '../config'
+import constants from '../constants'
 
 export function getCardColors(team) {
   switch (team) {
-    case config.TEAMSTR_DS: return config.COLOR_DS
-    case config.TEAMSTR_DEV: return config.COLOR_DEV
-    case config.TEAMSTR_DESIGN: return config.COLOR_DESIGN
-    case config.TEAMSTR_COMMS: return config.COLOR_COMMS
-    case config.TEAMSTR_ACCSS: return config.COLOR_ACCSS
-    case config.TEAMSTR_PARTNER: return config.COLOR_PARTNER
-    case config.TEAMSTR_BLKCH: return config.COLOR_BLKCH
-    case config.TEAMSTR_FUND: return config.COLOR_FUND
-    case config.TEAMSTR_VR: return config.COLOR_VR
-    case config.TEAMSTR_OTHER: return config.COLOR_OTHER
-    default: return config.COLOR_ABSENT
+    case constants.TEAMSTR_DS: return constants.COLOR_DS
+    case constants.TEAMSTR_DEV: return constants.COLOR_DEV
+    case constants.TEAMSTR_DESIGN: return constants.COLOR_DESIGN
+    case constants.TEAMSTR_COMMS: return constants.COLOR_COMMS
+    case constants.TEAMSTR_ACCSS: return constants.COLOR_ACCSS
+    case constants.TEAMSTR_PARTNER: return constants.COLOR_PARTNER
+    case constants.TEAMSTR_BLKCH: return constants.COLOR_BLKCH
+    case constants.TEAMSTR_FUND: return constants.COLOR_FUND
+    case constants.TEAMSTR_VR: return constants.COLOR_VR
+    case constants.TEAMSTR_OTHER: return constants.COLOR_OTHER
+    default: return constants.COLOR_ABSENT
   }
 }

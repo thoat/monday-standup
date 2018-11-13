@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 // === Local imports ===
-import config from '../config'
+import constants from '../constants'
 import { getCardColors } from '../helpers/helper-color'
 
 // ============ START OF COMPONENT ==================
@@ -21,7 +21,7 @@ const Card = props => {
   }
   let { memberName, team, isAbsent } = props.person
   let [fillColor, borderColor] = isAbsent
-    ? config.COLOR_ABSENT
+    ? constants.COLOR_ABSENT
     : getCardColors(team)
   let colorStyle = {
     backgroundColor: fillColor,

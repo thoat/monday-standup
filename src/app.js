@@ -1,6 +1,4 @@
 // TODO: writing tests!
-// TODO: for addMember and removeMember, will want to save (aka replace) the data file, not just replace the app's state variable. Right now, with members import in config.js, the app will automatically reload after EVERY change to the data.js file. Wonder if this is a desired functionality? If not, how we can prevent app auto-reload and only update the "members" variable until the next manual app load?
-// TODO: (optional) deploy to one of the engines e.g. Heroku
 
 // === Dependency imports ===
 import { confirmAlert } from 'react-confirm-alert'
@@ -12,7 +10,7 @@ import './app.css'
 import 'react-confirm-alert/src/react-confirm-alert.css' // TODO: edit this file to style the dialog box: https://github.com/GA-MO/react-confirm-alert/blob/master/src/react-confirm-alert.css
 
 // === Local imports ===
-import config from './config'
+import constants from './constants'
 import { yieldThePairs } from './helpers/helper-pairing'
 import Card from './components/card'
 import MemberIntakeForm from './components/member-intake-form'
@@ -39,19 +37,19 @@ function saveUpdatedData(rawData) {
     alert(body.message)
   })
 }
-const TEAMS = Object.entries(config)
-  .filter(entry => entry[0].includes('TEAMSTR')) // filter for config entries that are team names; entry[0] is the key
+const TEAMS = Object.entries(constants)
+  .filter(entry => entry[0].includes('TEAMSTR')) // filter for constants entries that are team names; entry[0] is the key
   .map(entry => entry[1]) // get just the team names; entry[1] is the value
-const MODE_START = config.MODE_START
-const MODE_PAIRED = config.MODE_PAIRED
-const MODE_REMOVE = config.MODE_REMOVE
+const MODE_START = constants.MODE_START
+const MODE_PAIRED = constants.MODE_PAIRED
+const MODE_REMOVE = constants.MODE_REMOVE
 
 // ============ START OF APP =======================
 class CardDisplayFrame extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      cardArray: config.members.map(member => createNewProfile(member)),
+      cardArray: constants.members.map(member => createNewProfile(member)),
       teamNames: TEAMS.map(team => createNewProfile({ "name": team })),
       cardPairs: [],
       formOpen: false
