@@ -27,7 +27,7 @@ function saveUpdatedData(rawData) {
   })
   let newContent = "const members = " + JSON.stringify(dataToSave) + "\nexport default members"
   // console.log(newContent)
-  fetch('/update', {
+  fetch('/api/update', {
     method: 'POST',
     body: newContent,
     headers: { "Content-Type": "text/plain" }
@@ -35,6 +35,8 @@ function saveUpdatedData(rawData) {
     return response.json()
   }).then(body => {
     alert(body.message)
+  }).catch(err => {
+    console.log(err)
   })
 }
 const TEAMS = Object.entries(constants)
