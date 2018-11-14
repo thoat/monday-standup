@@ -16,6 +16,7 @@
   "private": true,
   "scripts": {
     "start": "node express.js",
+    "heroku-prebuild": "cp ./src/data-sample.js ./src/data.js",
     "heroku-postbuild": "yarn build",
     "build": "react-scripts build",
     "test": "react-scripts test",
