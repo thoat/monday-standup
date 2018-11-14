@@ -23,7 +23,6 @@ yarn dev
 
 Your app will open automatically in http://localhost:3000.
 
-
 - Alternatively, if you want to run in production mode:
 
 ```

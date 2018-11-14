@@ -19,8 +19,8 @@ app.post('/update', textParser, (req, res) => {
 })
 
 
-const dev = app.get('env') !== "production"
-if (!dev) {
+const prod = app.get('env') === "production"
+if (prod) {
   app.disable('x-powered-by')
   app.use(compression())
   app.use(morgan('common'))

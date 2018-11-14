@@ -22,7 +22,7 @@
     "eject": "react-scripts eject",
     "client": "react-scripts start",
     "server": "nodemon express.js",
-    "dev": "NODE_ENV=dev concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
