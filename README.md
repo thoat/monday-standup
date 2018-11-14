@@ -13,13 +13,27 @@ Features available:
 
 ### Install and run
 
-Clone this GitHub repo, then, in your terminal or command-line interface:
+- Clone this GitHub repo, then, in your terminal or command-line interface:
 
 ```
 cp /src/data-sample.js /src/data.js
 yarn
 yarn dev
 ```
+
+Your app will open automatically in http://localhost:3000.
+
+
+- Alternatively, if you want to run in production mode:
+
+```
+cp /src/data-sample.js /src/data.js
+yarn
+yarn build
+NODE_ENV=production yarn start
+```
+
+You will need to manually open http://localhost:5000 in your browser.
 
 ### Credits
 

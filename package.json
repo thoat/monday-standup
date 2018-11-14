@@ -13,17 +13,16 @@
   "bugs": "https://github.com/thoat/monday-standup/issues",
   "repository": "github:thoat/monday-standup",
   "author": "Thoa Ta (http://thriving-thoa.simplesite.com)",
-  "main": "/src/App.js",
   "private": true,
-  "proxy": "http://localhost:3001",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node express.js",
+    "heroku-postbuild": "yarn build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "client": "yarn start",
+    "client": "react-scripts start",
     "server": "nodemon express.js",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+    "dev": "NODE_ENV=dev concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
@@ -31,7 +30,9 @@
     "body-parser": "^1.18.3",
     "browserify-fs": "^1.0.0",
     "collections": "^5.1.5",
+    "compression": "^1.7.3",
     "express": "^4.16.4",
+    "morgan": "^1.9.1",
     "nodemon": "^1.18.4",
     "react": "^16.5.2",
     "react-confirm-alert": "^2.0.6",
