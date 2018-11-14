@@ -27,7 +27,7 @@ function saveUpdatedData(rawData) {
   })
   let newContent = "const members = " + JSON.stringify(dataToSave) + "\nexport default members"
   // console.log(newContent)
-  fetch('/api/update', {
+  fetch('/update', {
     method: 'POST',
     body: newContent,
     headers: { "Content-Type": "text/plain" }
