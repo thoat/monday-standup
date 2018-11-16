@@ -5,4 +5,6 @@ install:
   - yarn
 script:
   # - yarn lint # not run this script for now since eslint set-up
-  # is still imperfect
+  # is still imperfect 
+  - cp ./src/data-sample.js ./src/data.js
+  - yarn test
