@@ -4,4 +4,9 @@ sudo: false
 install:
   - yarn
 script:
-  - yarn lint
+  # - yarn lint # not run this script for now since eslint set-up
+  # is still imperfect 
+  - cp ./src/data-sample.js ./src/data.js
+  - yarn dev
+  - yarn build
+  - yarn start
