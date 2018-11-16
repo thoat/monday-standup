@@ -1,0 +1,10 @@
+language: node_js
+node_js: 8.11.2
+sudo: false
+install:
+  - yarn
+script:
+  # - yarn lint # not run this script for now since eslint set-up
+  # is still imperfect 
+  - cp ./src/data-sample.js ./src/data.js
+  - yarn test

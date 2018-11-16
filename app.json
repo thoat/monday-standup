@@ -1,0 +1,23 @@
+{
+  "name": "monday-standup",
+  "scripts": {
+  },
+  "env": {
+    "PASSKEY_UNICEF_INNOV": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
