@@ -14,7 +14,7 @@ button {
   font-size: calc(5px + 2vmin);
 }
 
-.command-btn {
+.cmd-btn {
   margin: 7.5px;
   padding: 7.5px;
   background-color: green;
