@@ -1,5 +1,9 @@
 # Monday Standup
 
+[![Build Status](https://travis-ci.com/thoat/monday-standup.svg?branch=master)](https://travis-ci.com/thoat/monday-standup)
+[![Maintainability](https://api.codeclimate.com/v1/badges/69d18729ffd48f77245a/maintainability)](https://codeclimate.com/github/thoat/monday-standup/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/69d18729ffd48f77245a/test_coverage)](https://codeclimate.com/github/thoat/monday-standup/test_coverage)
+
 A simple web app to facilitate the weekly stand-up meetings at UNICEF Office of Innovation - NYHQ.
 
 ![Example Startpage](/public/screenshot-startpage.PNG)
