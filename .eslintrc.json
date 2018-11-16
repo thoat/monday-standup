@@ -1,0 +1,52 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "node": true,
+    "jest": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "airbnb"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "import/no-named-as-default": "off", 
+    "import/no-named-as-default-member": "off",
+    "indent": [
+      "error",
+      2
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "no-alert": "off",
+    "no-use-before-define": "off",
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "react/button-has-type": "off",
+    "react/jsx-filename-extension": "off",
+    "semi": [
+      "error",
+      "always"
+    ]
+  }
+}

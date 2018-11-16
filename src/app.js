@@ -1,203 +1,44 @@
 // TODO: writing tests!
 
 // === Dependency imports ===
-import { confirmAlert } from 'react-confirm-alert'
-import React, { Component } from 'react'
-import shortid from 'shortid'
+import React, { Component } from 'react';
 
 // === Stylesheets ===
-import './app.css'
-import 'react-confirm-alert/src/react-confirm-alert.css' // TODO: edit this file to style the dialog box: https://github.com/GA-MO/react-confirm-alert/blob/master/src/react-confirm-alert.css
+import './app.css';
 
 // === Local imports ===
-import constants from './constants'
-import { yieldThePairs } from './helpers/helper-pairing'
-import Card from './components/card'
-import MemberIntakeForm from './components/member-intake-form'
-import SiteInstruction from './components/site-instruction'
+import constants from './constants';
+import CardDisplayFrame from './components/card-display-frame';
+import SiteInstruction from './components/site-instruction';
 
-// === Constants and global functions ===
-function createNewProfile(target) {
-  return { ...target, id: shortid.generate() }
-}
-function saveUpdatedData(rawData) {
-  let dataToSave = rawData.map(card => {
-    let { memberName, team, isAbsent } = card // to ignore the 'id' property
-    return { memberName, team, isAbsent }
-  })
-  let newContent = "const members = " + JSON.stringify(dataToSave) + "\nexport default members"
-  // console.log(newContent)
-  fetch('/update', {
-    method: 'POST',
-    body: newContent,
-    headers: { "Content-Type": "text/plain" }
-  }).then(response => {
-    return response.json()
-  }).then(body => {
-    alert(body.message)
-  })
-}
-const TEAMS = Object.entries(constants)
-  .filter(entry => entry[0].includes('TEAMSTR')) // filter for constants entries that are team names; entry[0] is the key
-  .map(entry => entry[1]) // get just the team names; entry[1] is the value
-const MODE_START = constants.MODE_START
-const MODE_PAIRED = constants.MODE_PAIRED
-const MODE_REMOVE = constants.MODE_REMOVE
+const { MODE_START } = constants;
 
 // ============ START OF APP =======================
-class CardDisplayFrame extends Component {
+export default class App extends Component {
   constructor(props) {
-    super(props)
-    this.state = {
-      cardArray: constants.members.map(member => createNewProfile(member)),
-      teamNames: TEAMS.map(team => createNewProfile({ "name": team })),
-      cardPairs: [],
-      formOpen: false
-    }
-  }
-
-  // since the argument "this.props" is passed into Card.handleOnClick(), "e" corresponds to the Card object rather than an event or the <button/> element
-  toggleAbsent = (e) => {
-    let updatedCardArray = [...this.state.cardArray]
-    let targetIndex = updatedCardArray.indexOf(e.person)
-    updatedCardArray[targetIndex].isAbsent = !e.person.isAbsent
-    this.setState({ cardArray: updatedCardArray })
-  }
-
-  pairCards = () => {
-    let result = yieldThePairs(this.state.cardArray)
-    let resultWithIds = result.map(pair => createNewProfile(pair))
-    this.setState({ cardPairs: resultWithIds })
-    this.props.onModeSwitch(MODE_PAIRED)
-  }
-
-  unpairCards = () => {
-    this.props.onModeSwitch(MODE_START)
-  }
-
-  enterRemove = () => {
-    this.props.onModeSwitch(MODE_REMOVE)
-  }
-
-  cancelRemove = () => {
-    this.props.onModeSwitch(MODE_START)
-  }
-
-  // since the argument "this.props" is passed into Card.handleOnClick(), "e" corresponds to the Card object rather than an event or the <button/> element
-  removeCard = (e) => {
-    confirmAlert({
-      title: "",
-      message: "Are you sure you want to remove " + e.person.memberName + "?",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: () => {
-            let updatedCardArray = [...this.state.cardArray]
-            let targetIndex = updatedCardArray.indexOf(e.person)
-            updatedCardArray.splice(targetIndex, 1)
-            this.setState({ cardArray: updatedCardArray })
-            saveUpdatedData(updatedCardArray)
-          }
-        },
-        {
-          label: "No",
-          onClick: () => null
-        }
-      ]
-    })
-  }
-
-  addMember = () => {
-    this.setState({ formOpen: true })
-  }
-
-  handleMemberIntake = (values) => {
-    let updatedCardArray = [...this.state.cardArray]
-    let newMember = { ...values, isAbsent: false }
-    console.log(newMember)
-    updatedCardArray.push(createNewProfile(newMember))
-    this.setState({ cardArray: updatedCardArray, formOpen: false })
-    saveUpdatedData(updatedCardArray)
-  }
-
-  closeForm = () => {
-    this.setState({ formOpen: false })
-  }
-
-  render() {
-    let appMode = this.props.appMode
-    let cards = this.state.cardArray
-    switch (appMode) {
-      case MODE_START:
-        cards = cards.map(card =>
-          <Card key={card.id} person={card} onClick={this.toggleAbsent} />
-        )
-        return (
-          <div>
-            <div className="card-zone__start">{cards}</div>
-            <button className="command-btn" type="button" onClick={this.pairCards}>Pair Up!</button>
-            <button className="command-btn" type="button" onClick={this.addMember}>Add Member</button>
-            <button className="command-btn" type="button" onClick={this.enterRemove}>Remove Member</button>
-            <div>{this.state.formOpen && (
-              <MemberIntakeForm options={this.state.teamNames} onSubmit={this.handleMemberIntake} onClose={this.closeForm} />
-            )}</div>
-          </div>
-        )
-      case MODE_PAIRED:
-        cards = this.state.cardPairs.map(pair =>
-          <div className="card-pair-block" key={pair.id} style={{ display: "block" }}>
-            <Card person={pair.card1} />
-            <Card person={pair.card2} />
-          </div>
-        )
-        return (
-          <div>
-            <div className="card-zone__paired">{cards}</div>
-            <button className="command-btn" type="button"
-              onClick={this.unpairCards}>Dismiss</button>
-          </div>
-        )
-      case MODE_REMOVE:
-        cards = cards.map(card =>
-          <Card key={card.id} person={card} onClick={this.removeCard} />
-        )
-        return (
-          <div>
-            <div className="card-zone__remove">{cards}</div>
-            <button className="command-btn" type="button" onClick={this.cancelRemove}>Cancel</button>
-          </div>
-        )
-      default:
-        return
-    }
-  }
-}
-
-class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { appMode: MODE_START }
+    super(props);
+    this.state = { appMode: MODE_START };
   }
 
   handleModeSwitch = (newMode) => {
-    this.setState({ appMode: newMode })
+    this.setState({ appMode: newMode });
   }
 
   render() {
+    const { appMode } = this.state;
     return (
       <div className="App">
         <header className="App-header">
           <h1>OI Monday StandUp</h1>
-          <SiteInstruction appMode={this.state.appMode} />
+          <SiteInstruction appMode={appMode} />
         </header>
         <div className="App-body">
           <CardDisplayFrame
-            appMode={this.state.appMode}
-            onModeSwitch={this.handleModeSwitch} />
+            appMode={appMode}
+            onModeSwitch={this.handleModeSwitch}
+          />
         </div>
       </div>
-    )
+    );
   }
 }
-
-export default App

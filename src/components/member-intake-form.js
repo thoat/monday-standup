@@ -1,40 +1,35 @@
 // === Dependency imports ===
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 // ============ START OF COMPONENT ==================
 export default class MemberIntakeForm extends Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    options: PropTypes.array.isRequired
-  }
+    // eslint-disable-next-line react/forbid-prop-types
+    options: PropTypes.array.isRequired,
+  };
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      memberName: "",
-      team: this.props.options[0].name // options[0] will yield an object {name: ABC, id: DEF} so we here have to extract the field "name"
-    }
-  }
-
-  resetState() {
-    this.setState({
-      memberName: "",
-      team: this.props.options[0].name
-    }) // options[0] will yield an object {name: ABC, id: DEF} so we here have to extract the field "name"
+      memberName: '',
+      team: this.props.options[0].name, /* options[0] will yield an object
+      {name: ABC, id: DEF} so we here have to extract the field "name" */
+    };
   }
 
   handleClose = (e) => {
-    this.props.onClose()
-    e.preventDefault()
-    this.resetState()
+    this.props.onClose();
+    e.preventDefault();
+    this.resetState();
   }
 
   handleInputChange = (e) => {
-    const attribute = e.target.name
-    const newValue = e.target.value
-    this.setState({ [attribute]: newValue })
+    const attribute = e.target.name;
+    const newValue = e.target.value;
+    this.setState({ [attribute]: newValue });
     // console.log([attribute, newValue])
   }
 
@@ -43,14 +38,21 @@ export default class MemberIntakeForm extends Component {
       // empty name aka form is invalid, so we do nothing
       return;
     }
-    this.props.onSubmit(this.state)
-    e.preventDefault()
-    this.resetState()
+    this.props.onSubmit(this.state);
+    e.preventDefault();
+    this.resetState();
+  }
+
+  resetState() {
+    this.setState({
+      memberName: '',
+      team: this.props.options[0].name,
+    }); /* options[0] will yield an object {name: ABC, id: DEF} so we here have
+    to extract the field "name" */
   }
 
   render() {
-    let options = this.props.options.map(opt =>
-      <option key={opt.id}>{opt.name}</option>)
+    const options = this.props.options.map(opt => <option key={opt.id}>{opt.name}</option>);
     return (
       <div className="modal">
         <form>
@@ -60,13 +62,15 @@ export default class MemberIntakeForm extends Component {
             type="text"
             required
             value={this.state.memberName}
-            onChange={this.handleInputChange} />
+            onChange={this.handleInputChange}
+          />
           <br />
           <label>Team: </label>
           <select
             name="team"
             value={this.state.team}
-            onChange={this.handleInputChange}>
+            onChange={this.handleInputChange}
+          >
             {options}
           </select>
           <br />
@@ -76,6 +80,6 @@ export default class MemberIntakeForm extends Component {
           </div>
         </form>
       </div>
-    )
+    );
   }
 }

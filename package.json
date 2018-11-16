@@ -13,26 +13,32 @@
   "bugs": "https://github.com/thoat/monday-standup/issues",
   "repository": "github:thoat/monday-standup",
   "author": "Thoa Ta (http://thriving-thoa.simplesite.com)",
-  "main": "/src/App.js",
   "private": true,
-  "proxy": "http://localhost:3001",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node express.js",
+    "heroku-prebuild": "cp ./src/data-sample.js ./src/data.js",
+    "heroku-postbuild": "yarn build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "client": "yarn start",
+    "client": "react-scripts start",
     "server": "nodemon express.js",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "lint": "node_modules/.bin/eslint ."
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
+    "babel-eslint": "9.0.0",
     "babel-preset-react": "^6.24.1",
     "body-parser": "^1.18.3",
     "browserify-fs": "^1.0.0",
     "collections": "^5.1.5",
+    "compression": "^1.7.3",
     "express": "^4.16.4",
+    "http-proxy-middleware": "^0.19.0",
+    "morgan": "^1.9.1",
     "nodemon": "^1.18.4",
+    "prop-types": "^15.6.2",
     "react": "^16.5.2",
     "react-confirm-alert": "^2.0.6",
     "react-dom": "^16.5.2",
@@ -40,7 +46,11 @@
     "shortid": "^2.2.13"
   },
   "devDependencies": {
-    "concurrently": "^4.0.1"
+    "concurrently": "^4.0.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1"
   },
   "eslintConfig": {
     "extends": "react-app"
