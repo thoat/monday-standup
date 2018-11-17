@@ -1,34 +1,14 @@
 {
-  "name": "monday-standup",
-  "version": "0.1.0",
-  "description": "Simple web app to faciliate standups in diverse teams",
-  "keywords": [
-    "standups",
-    "diverse",
-    "teams",
-    "web app",
-    "simple",
-    "pairing"
+  "author": "Thoa Ta (http://thriving-thoa.simplesite.com)",
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
   ],
   "bugs": "https://github.com/thoat/monday-standup/issues",
-  "repository": "github:thoat/monday-standup",
-  "author": "Thoa Ta (http://thriving-thoa.simplesite.com)",
-  "private": true,
-  "scripts": {
-    "start": "node express.js",
-    "heroku-prebuild": "cp ./src/data-sample.js ./src/data.js",
-    "heroku-postbuild": "yarn build",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "client": "react-scripts start",
-    "server": "nodemon express.js",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
-    "lint": "node_modules/.bin/eslint ."
-  },
   "dependencies": {
     "babel-cli": "^6.26.0",
-    "babel-eslint": "9.0.0",
     "babel-preset-react": "^6.24.1",
     "body-parser": "^1.18.3",
     "browserify-fs": "^1.0.0",
@@ -46,25 +26,47 @@
     "react-scripts": "2.0.4",
     "shortid": "^2.2.13"
   },
+  "description": "Simple web app to faciliate standups in diverse teams",
   "devDependencies": {
     "concurrently": "^4.0.1",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-react": "^7.11.1"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "babel-eslint": "9.0.0",
+    "eslint": "5.6.0",
+    "eslint-config-airbnb": "17.1.0",
+    "eslint-plugin-flowtype": "3.2.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jsx-a11y": "6.1.2",
+    "eslint-plugin-react": "7.11.1"
   },
   "engines": {
     "node": ">= 8",
     "npm": ">= 5",
     "yarn": ">= 1"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "keywords": [
+    "diverse",
+    "pairing",
+    "simple",
+    "standups",
+    "teams",
+    "web app"
+  ],
+  "name": "monday-standup",
+  "private": true,
+  "repository": "github:thoat/monday-standup",
+  "scripts": {
+    "build": "react-scripts build",
+    "client": "react-scripts start",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "yarn build",
+    "heroku-prebuild": "cp ./src/data-sample.js ./src/data.js",
+    "lint": "node_modules/.bin/eslint .",
+    "server": "nodemon express.js",
+    "start": "node express.js",
+    "test": "react-scripts test"
+  },
+  "version": "0.1.0"
 }
