@@ -28,8 +28,8 @@
   "description": "Simple web app to faciliate standups in diverse teams",
   "devDependencies": {
     "concurrently": "^4.0.1",
-    "babel-eslint": "10.0.1",
-    "eslint": "5.9.0",
+    "babel-eslint": "9.0.0",
+    "eslint": "5.6.0",
     "eslint-config-airbnb": "17.1.0",
     "eslint-plugin-flowtype": "3.2.0",
     "eslint-plugin-import": "2.14.0",
