@@ -60,6 +60,20 @@ export default class CardDisplayFrame extends Component {
     };
   }
 
+  componentDidMount() {
+    this.fetchMemberList();
+  }
+
+  fetchMemberList = () => {
+    fetch('/api/members')
+      // .then(res => res.j son())
+      .then((data) => {
+        console.log(typeof data);
+        console.log(data);
+        // this.setState({ cardArray: data });
+      });
+  }
+
   toggleAbsent = (person) => {
     const updatedCardArray = [...this.state.cardArray];
     const targetIndex = updatedCardArray.indexOf(person);

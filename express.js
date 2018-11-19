@@ -19,17 +19,19 @@ const client = new Client({
   // connectionString: 'postgres://igefxcolofqbpj:c84ca1c7adac8b0207a4dd00106d74d66cbb2bb8fe3b38701f2adef800ba86ea@ec2-184-72-221-2.compute-1.amazonaws.com:5432/de4hacgbeomvqq',
 });
 
-// console.log(client);
-let data = [];
-client.connect()
-  .then(client.query(SELECT_ALL_MEMBERS_QUERY, (err, res) => {
-    if (err) throw err;
-    // eslint-disable-next-line no-console
-    console.log(typeof res.rows); // object, hence can't use Array.prototype.map
-    res.rows.forEach(row => data.push(row));
-    console.log(data);
-    client.end();
-  }));
+app.get('/api/members', (request, response) => {
+  const data = [];
+  client.connect()
+    .then(client.query(SELECT_ALL_MEMBERS_QUERY, (err, res) => {
+      if (err) throw err;
+      // eslint-disable-next-line no-console
+      console.log(typeof res.rows); // object, hence can't use Array.prototype.map
+      res.rows.forEach(row => data.push(row));
+      console.log(data);
+      console.log(typeof data);
+      client.end();
+    })).then(response.json(data));
+});
 // .catch((err) => { throw err; });
 
 // // create application/text parser
