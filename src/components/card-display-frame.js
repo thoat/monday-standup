@@ -65,12 +65,11 @@ export default class CardDisplayFrame extends Component {
   }
 
   fetchMemberList = () => {
-    fetch('/api/members')
-      // .then(res => res.j son())
+    fetch('/members')
+      .then(res => res.json()) // can't skip this! Or else, the returned stuff is the Response object, not the data I want!
       .then((data) => {
-        console.log(typeof data);
         console.log(data);
-        // this.setState({ cardArray: data });
+        this.setState({ cardArray: data }); //NEW CHANGE HERE! works on simple-calculator. Chekc if woring here. WOOHOW!!
       });
   }
 
