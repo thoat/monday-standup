@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 
 const app = express();
@@ -11,11 +12,7 @@ const path = require('path');
 // set up database connection
 const SELECT_ALL_MEMBERS_QUERY = 'SELECT * FROM members;';
 const client = new Client({
-  // user: 'thoa1',
-  // password: '20181118SUN',
-  // database: 'standup_db',
-  // port: 5432,
-  connectionString: 'postgres://thoa1:20181118SUN@localhost:5433/standup_db',
+  connectionString: process.env.DATABASE_URL,
   // connectionString: 'postgres://igefxcolofqbpj:c84ca1c7adac8b0207a4dd00106d74d66cbb2bb8fe3b38701f2adef800ba86ea@ec2-184-72-221-2.compute-1.amazonaws.com:5432/de4hacgbeomvqq',
 });
 

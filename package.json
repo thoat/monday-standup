@@ -14,6 +14,7 @@
     "browserify-fs": "^1.0.0",
     "collections": "^5.1.5",
     "compression": "^1.7.3",
+    "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "http-proxy-middleware": "^0.19.0",
     "morgan": "^1.9.1",
