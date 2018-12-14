@@ -53,7 +53,7 @@ export default class CardDisplayFrame extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cardArray: constants.members.map(member => createNewProfile(member)),
+      cardArray: [],
       teamNames: TEAMS.map(team => createNewProfile({ name: team })),
       cardPairs: [],
       formOpen: false,
@@ -68,8 +68,7 @@ export default class CardDisplayFrame extends Component {
     fetch('/members')
       .then(res => res.json()) // can't skip this! Or else, the returned stuff is the Response object, not the data I want!
       .then((data) => {
-        console.log(data);
-        this.setState({ cardArray: data }); //NEW CHANGE HERE! works on simple-calculator. Chekc if woring here. WOOHOW!!
+        this.setState({ cardArray: data });
       });
   }
 
@@ -144,7 +143,7 @@ export default class CardDisplayFrame extends Component {
     let cards = this.state.cardArray;
     switch (appMode) {
     case MODE_START:
-      cards = cards.map(card => <Card key={card.id} person={card} onClick={this.toggleAbsent} />);
+      cards = cards.map(card => <Card key={card.rowid} person={card} onClick={this.toggleAbsent} />);
       return (
         <div>
           <div className="card-zone__start">{cards}</div>
@@ -188,7 +187,7 @@ export default class CardDisplayFrame extends Component {
         </div>
       );
     case MODE_REMOVE:
-      cards = cards.map(card => <Card key={card.id} person={card} onClick={this.removeCard} />);
+      cards = cards.map(card => <Card key={card.rowid} person={card} onClick={this.removeCard} />);
       return (
         <div>
           <div className="card-zone__remove">{cards}</div>

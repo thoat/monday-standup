@@ -1,29 +1,30 @@
 require('dotenv').config();
-const express = require('express');
-
-const app = express();
 const bodyParser = require('body-parser');
 const { Client } = require('pg');
 const compression = require('compression');
+const express = require('express');
 const fs = require('fs');
 const morgan = require('morgan');
 const path = require('path');
 
-// set up database connection
+const app = express();
+// const db = new Client({
+//   connectionString: process.env.DATABASE_URL,
+// });
+
 const SELECT_ALL_MEMBERS_QUERY = 'SELECT * FROM members;';
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  // connectionString: 'postgres://igefxcolofqbpj:c84ca1c7adac8b0207a4dd00106d74d66cbb2bb8fe3b38701f2adef800ba86ea@ec2-184-72-221-2.compute-1.amazonaws.com:5432/de4hacgbeomvqq',
-});
 
 app.get('/members', (request, response) => {
-  client.connect()
-    .then(client.query(SELECT_ALL_MEMBERS_QUERY, (err, res) => {
+  const db = new Client({
+    connectionString: process.env.DATABASE_URL,
+  });
+  db.connect()
+    .then(db.query(SELECT_ALL_MEMBERS_QUERY, (err, res) => {
       if (err) throw err;
-      client.end();
+      response.send(res.rows);
+      db.end(); // when to?
     }));
 });
-// .catch((err) => { throw err; });
 
 // // create application/text parser
 // const textParser = bodyParser.text({ type: 'text/plain' });

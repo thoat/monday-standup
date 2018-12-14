@@ -18,7 +18,7 @@ const Card = ({ person, onClick }) => {
       />
     );
   }
-  const { memberName, team, isAbsent } = person;
+  const { name: memberName, team, isAbsent } = person;
   const [fillColor, borderColor] = isAbsent
     ? constants.COLOR_ABSENT
     : getCardColors(team);
