@@ -19,25 +19,44 @@ import MemberIntakeForm from './member-intake-form';
 function createNewProfile(target) {
   return { ...target, id: shortid.generate() };
 }
-function saveUpdatedData(rawData) {
-  const dataToSave = rawData.map((card) => {
-    const { memberName, team, isAbsent } = card; // to ignore the 'id' property
-    return { memberName, team, isAbsent };
-  });
-  const newContent = 'const members = '
-    + `${JSON.stringify(dataToSave)}\n`
-    + 'export default members';
-  // console.log(newContent)
-  fetch('/update', {
-    method: 'POST',
-    body: newContent,
-    headers: { 'Content-Type': 'text/plain' },
-  }).then(response => response.json()).then((body) => {
-    alert(body.message);
-  }).catch((err) => {
-    console.log(err); // eslint-disable-line no-console
-  });
+function saveRemoveChanges(data) {
+  fetch(`/api/members/${data}`, { method: 'DELETE' })
+    .then(response => response.json())
+    .then(body => alert(body.msg))
+    .catch((err) => {
+      console.log(err); // eslint-disable-line no-console
+    });
 }
+// function saveAddChanges(data) {
+//   fetch('api/members', {
+//     method: 'POST',
+//     body: data,
+//     // headers: { 'Content-Type': 'json' },
+//   }).then(response => response.json())
+//     .then(msg => alert(msg))
+//     .catch((err) => {
+//       console.log(err); // eslint-disable-line no-console
+//     });
+// }
+// function saveUpdatedData(rawData) {
+//   const dataToSave = rawData.map((card) => {
+//     const { memberName, team, isAbsent } = card; // to ignore the 'id' property
+//     return { memberName, team, isAbsent };
+//   });
+//   const newContent = 'const members = '
+//     + `${JSON.stringify(dataToSave)}\n`
+//     + 'export default members';
+//   // console.log(newContent)
+//   fetch('/update', {
+//     method: 'POST',
+//     body: newContent,
+//     headers: { 'Content-Type': 'text/plain' },
+//   }).then(response => response.json()).then((body) => {
+//     alert(body.message);
+//   }).catch((err) => {
+//     console.log(err); // eslint-disable-line no-console
+//   });
+// }
 const TEAMS = Object.entries(constants)
   // filter for constants entries that are team names; entry[0] is the key
   .filter(entry => entry[0].includes('TEAMSTR'))
@@ -65,8 +84,8 @@ export default class CardDisplayFrame extends Component {
   }
 
   fetchMemberList = () => {
-    fetch('/members')
-      .then(res => res.json()) // can't skip this! Or else, the returned stuff is the Response object, not the data I want!
+    fetch('/api/members', { method: 'GET' })
+      .then(response => response.json()) // can't skip this!
       .then((data) => {
         this.setState({ cardArray: data });
       });
@@ -101,7 +120,7 @@ export default class CardDisplayFrame extends Component {
   removeCard = (person) => {
     confirmAlert({
       title: '',
-      message: `Are you sure you want to remove ${person.memberName}?`,
+      message: `Are you sure you want to remove ${person.name}?`,
       buttons: [
         {
           label: 'Yes',
@@ -110,7 +129,7 @@ export default class CardDisplayFrame extends Component {
             const targetIndex = updatedCardArray.indexOf(person);
             updatedCardArray.splice(targetIndex, 1);
             this.setState({ cardArray: updatedCardArray });
-            saveUpdatedData(updatedCardArray);
+            saveRemoveChanges(person.rowid);
           },
         },
         {
@@ -130,7 +149,7 @@ export default class CardDisplayFrame extends Component {
     const newMember = { ...values, isAbsent: false };
     updatedCardArray.push(createNewProfile(newMember));
     this.setState({ cardArray: updatedCardArray, formOpen: false });
-    saveUpdatedData(updatedCardArray);
+    // saveUpdatedData(updatedCardArray);
   }
 
   closeForm = () => {

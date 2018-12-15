@@ -8,13 +8,10 @@ const morgan = require('morgan');
 const path = require('path');
 
 const app = express();
-// const db = new Client({
-//   connectionString: process.env.DATABASE_URL,
-// });
 
 const SELECT_ALL_MEMBERS_QUERY = 'SELECT * FROM members;';
 
-app.get('/members', (request, response) => {
+app.get('/api/members', (request, response) => {
   const db = new Client({
     connectionString: process.env.DATABASE_URL,
   });
@@ -22,21 +19,54 @@ app.get('/members', (request, response) => {
     .then(db.query(SELECT_ALL_MEMBERS_QUERY, (err, res) => {
       if (err) throw err;
       response.send(res.rows);
-      db.end(); // when to?
+      db.end();
     }));
 });
 
-// // create application/text parser
-// const textParser = bodyParser.text({ type: 'text/plain' });
+// create application/text parser
+const textParser = bodyParser.text({ type: 'text/plain' });
 
-// // POST /update gets text bodies. Test this in Postman extension
-// app.post('/update', textParser, (req, res) => {
-//   // console.log(req.body);
-//   fs.writeFile('./src/data.js', req.body, (err) => {
-//     if (err) res.send({ message: 'Could not update data' });
-//     else res.send({ message: 'Data updated!' });
-//   });
-// });
+// create application/json parser
+const jsonParser = bodyParser.json();
+
+app.delete('/api/members/:rowid', (request, response) => {
+  const toDel = request.params.rowid;
+  const DELETE_QUERY = `DELETE FROM members WHERE rowid = '${toDel}';`;
+  const db = new Client({
+    connectionString: process.env.DATABASE_URL,
+  });
+  db.connect()
+    .then(db.query(DELETE_QUERY, (err, res) => {
+      if (err) response.send({ msg: 'Error incurred. Change is not saved to backend.' });
+      else {
+        const msg = res.rowCount === 0
+          ? 'No matching id. No data was deleted.'
+          : 'Member removed succesfully!';
+        response.send({ msg });
+      }
+      db.end();
+    }));
+});
+
+// POST /update gets json bodies. Test this in Postman extension
+app.post('/update', (request, response) => {
+  // if (!request.body) return response.sendStatus(400);
+  console.log(request.body);
+  // const db = new Client({
+  //   connectionString: process.env.DATABASE_URL,
+  // });
+  // console.log(request.body);
+
+  // const actionQuery = `INSERT INTO members VALUES(${request.body.data})`;
+  // db.connect()
+  //   .then(db.query(, (err) => {
+  //     if (err) response.send({ message: 'Could not update data' });
+  //     response.send({ message: 'Data removed successfully!' });
+  //   }));
+  // fs.writeFile('./src/data.js', request.body, (err) => {
+  //   if (err) response.send({ message: 'Could not update data' });
+  //   else response.send({ message: 'Data updated!' });
+});
 
 
 // const prod = app.get('env') === 'production';
