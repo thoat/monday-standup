@@ -64,7 +64,8 @@
     "eject": "react-scripts eject",
     "heroku-postbuild": "yarn build",
     "heroku-prebuild": "cp ./src/data-sample.js ./src/data.js",
-    "lint": "node_modules/.bin/eslint .",
+    "lint": "node_modules/.bin/eslint ",
+    "lintall": "node_modules/.bin/eslint .",
     "server": "nodemon express.js",
     "start": "node express.js",
     "test": "react-scripts test"
