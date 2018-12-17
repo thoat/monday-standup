@@ -2,7 +2,7 @@
 import { confirmAlert } from 'react-confirm-alert';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import shortid from 'shortid';
+import uuidv4 from 'uuid/v4';
 
 // === Stylesheets ===
 import '../app.css';
@@ -17,7 +17,7 @@ import MemberIntakeForm from './member-intake-form';
 
 // === Constants and global functions ===
 function createNewProfile(target) {
-  return { ...target, id: shortid.generate() };
+  return { ...target, id: uuidv4() };
 }
 function saveRemoveChanges(data) {
   fetch(`/api/members/${data}`, { method: 'DELETE' })
@@ -61,7 +61,10 @@ export default class CardDisplayFrame extends Component {
   }
 
   componentDidMount() {
-    this.fetchMemberList();
+    if (!process.env.REACT_APP_PASSKEY) { // demo app
+      const data = constants.members.map(member => createNewProfile(member));
+      this.setState({ cardArray: data });
+    } else this.fetchMemberList(); // official app
   }
 
   fetchMemberList = () => {
@@ -116,7 +119,7 @@ export default class CardDisplayFrame extends Component {
             const targetIndex = updatedCardArray.indexOf(person);
             updatedCardArray.splice(targetIndex, 1);
             this.setState({ cardArray: updatedCardArray });
-            saveRemoveChanges(person.id);
+            if (process.env.REACT_APP_PASSKEY) saveRemoveChanges(person.id);
           },
         },
         {
@@ -133,10 +136,12 @@ export default class CardDisplayFrame extends Component {
 
   handleMemberIntake = (values) => {
     const updatedCardArray = [...this.state.cardArray];
-    const newMember = { ...values, isAbsent: false };
-    updatedCardArray.push(createNewProfile(newMember));
+    const newMember = { ...values, id: uuidv4(), isAbsent: false };
+    updatedCardArray.push(newMember);
     this.setState({ cardArray: updatedCardArray, formOpen: false });
-    saveAddChanges(values);
+    if (process.env.REACT_APP_PASSKEY) {
+      saveAddChanges({ ...values, id: newMember.id });
+    }
   }
 
   closeForm = () => {

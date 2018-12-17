@@ -24,7 +24,7 @@
     "react-confirm-alert": "^2.0.6",
     "react-dom": "^16.5.2",
     "react-scripts": "2.0.4",
-    "shortid": "^2.2.13"
+    "uuid": "^3.3.2"
   },
   "description": "Simple web app to faciliate standups in diverse teams",
   "devDependencies": {
@@ -63,7 +63,6 @@
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "eject": "react-scripts eject",
     "heroku-postbuild": "yarn build",
-    "heroku-prebuild": "cp ./src/data-sample.js ./src/data.js",
     "lint": "node_modules/.bin/eslint ",
     "lintall": "node_modules/.bin/eslint .",
     "server": "nodemon express.js",

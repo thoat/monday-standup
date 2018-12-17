@@ -48,8 +48,8 @@ const jsonParser = bodyParser.json();
 // Don't forget the parser!!!
 app.post('/api/members', jsonParser, (request, response) => {
   // if (!request.body) return response.sendStatus(400);
-  const { memberName, team } = request.body;
-  const INSERT_QUERY = `INSERT INTO members (name, team) VALUES ('${memberName}', '${team}');`;
+  const { id, memberName, team } = request.body;
+  const INSERT_QUERY = `INSERT INTO members (rowid, name, team) VALUES ('${id}', '${memberName}', '${team}');`;
   const db = new Client({
     connectionString: process.env.DATABASE_URL,
   });

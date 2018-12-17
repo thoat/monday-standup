@@ -1,4 +1,7 @@
+import members from './data';
+
 const constants = {
+  members,
   MODE_START: 'unpaired',
   MODE_PAIRED: 'paired',
   MODE_REMOVE: 'remove',
