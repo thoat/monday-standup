@@ -23,12 +23,6 @@ app.get('/api/members', (request, response) => {
     }));
 });
 
-// create application/text parser
-const textParser = bodyParser.text({ type: 'text/plain' });
-
-// create application/json parser
-const jsonParser = bodyParser.json();
-
 app.delete('/api/members/:rowid', (request, response) => {
   const toDel = request.params.rowid;
   const DELETE_QUERY = `DELETE FROM members WHERE rowid = '${toDel}';`;
@@ -48,24 +42,22 @@ app.delete('/api/members/:rowid', (request, response) => {
     }));
 });
 
-// POST /update gets json bodies. Test this in Postman extension
-app.post('/update', (request, response) => {
-  // if (!request.body) return response.sendStatus(400);
-  console.log(request.body);
-  // const db = new Client({
-  //   connectionString: process.env.DATABASE_URL,
-  // });
-  // console.log(request.body);
+// create application/json parser
+const jsonParser = bodyParser.json();
 
-  // const actionQuery = `INSERT INTO members VALUES(${request.body.data})`;
-  // db.connect()
-  //   .then(db.query(, (err) => {
-  //     if (err) response.send({ message: 'Could not update data' });
-  //     response.send({ message: 'Data removed successfully!' });
-  //   }));
-  // fs.writeFile('./src/data.js', request.body, (err) => {
-  //   if (err) response.send({ message: 'Could not update data' });
-  //   else response.send({ message: 'Data updated!' });
+// Don't forget the parser!!!
+app.post('/api/members', jsonParser, (request, response) => {
+  // if (!request.body) return response.sendStatus(400);
+  const { memberName, team } = request.body;
+  const INSERT_QUERY = `INSERT INTO members (name, team) VALUES ('${memberName}', '${team}');`;
+  const db = new Client({
+    connectionString: process.env.DATABASE_URL,
+  });
+  db.connect()
+    .then(db.query(INSERT_QUERY, (err) => {
+      if (err) response.send({ msg: 'Error incurred. Change is not saved to backend.' });
+      else response.send({ msg: 'Data added successfully!' });
+    }));
 });
 
 
