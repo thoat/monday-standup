@@ -20,7 +20,7 @@ Features available:
 - The __demo version__ of the app is available with sample data, so be sure to type the following line before anything else. You need to do this only once:
 
 ```{shell}
-cp /src/data-sample.js /src/data.js
+cp src/data-sample.js src/data.js
 ```
 
 Just note, however, that data changes (i.e. adding and removing members) won't be persistent between app sessions, because there's no backend service provisioned to handle it.
