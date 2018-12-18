@@ -194,7 +194,7 @@ export default class CardDisplayFrame extends Component {
               onClick={this.unpairCards}
             >
               Dismiss
-          </button>
+            </button>
           </div>
         );
       case MODE_REMOVE:
