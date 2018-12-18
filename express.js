@@ -61,22 +61,22 @@ app.post('/api/members', jsonParser, (request, response) => {
 });
 
 
-// const prod = app.get('env') === 'production';
-// if (prod) {
-//   app.disable('x-powered-by');
-//   app.use(compression());
-//   app.use(morgan('common'));
-//   app.use(express.static(path.resolve(__dirname, 'build')));
-//   app.get('*', (req, res) => {
-//     res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
-//   });
-// } else {
-//   app.use(morgan('dev'));
-//   // app.use(express.static(path.resolve(__dirname, 'public')))
-//   // app.get('*', (req, res) => {
-//   //   res.sendFile(path.resolve(__dirname, 'public', 'index.html'))
-//   // })
-// }
+const prod = process.env.NODE_ENV === 'production';
+if (prod) {
+  app.disable('x-powered-by');
+  app.use(compression());
+  app.use(morgan('common'));
+  app.use(express.static(path.resolve(__dirname, 'build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+  });
+} else {
+  app.use(morgan('dev'));
+  // app.use(express.static(path.resolve(__dirname, 'public')))
+  // app.get('*', (req, res) => {
+  //   res.sendFile(path.resolve(__dirname, 'public', 'index.html'))
+  // })
+}
 
 const port = process.env.PORT || 5000;
 // eslint-disable-next-line no-console
