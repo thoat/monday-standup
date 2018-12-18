@@ -3,9 +3,6 @@
   "scripts": {
   },
   "env": {
-    "PASSKEY_UNICEF_INNOV": {
-      "required": true
-    }
   },
   "formation": {
     "web": {
