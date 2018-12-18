@@ -63,6 +63,7 @@
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "eject": "react-scripts eject",
     "heroku-postbuild": "yarn build",
+    "heroku-prebuild": "cp /src/data-sample.js /src/data.js",
     "lint": "node_modules/.bin/eslint ",
     "lintall": "node_modules/.bin/eslint .",
     "server": "nodemon express.js",

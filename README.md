@@ -25,7 +25,7 @@ cp /src/data-sample.js /src/data.js
 
 Just note, however, that data changes (i.e. adding and removing members) won't be persistent between app sessions, because there's no backend service provisioned to handle it.
 
-- Alternatively, if you believe you're authorized to use the __official UNICEFInnovate version__, contact me for the following credentials:
+- Alternatively, if you believe you're authorized to use the __official UNICEFInnovate version__, contact me for the following credentials. NOTE: you _still need_ to copy the data file as described above because the source code needs to call it.
 
 ```{shell}
 export REACT_APP_PASSKEY=<the-passkey>
