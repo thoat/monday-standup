@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const { Client } = require('pg');
 const compression = require('compression');
 const express = require('express');
-const fs = require('fs');
 const morgan = require('morgan');
 const path = require('path');
 
@@ -11,7 +10,7 @@ const app = express();
 
 const SELECT_ALL_MEMBERS_QUERY = 'SELECT * FROM members;';
 
-app.get('/api/members', (request, response) => {
+app.get('/api/members', (response) => {
   const db = new Client({
     connectionString: process.env.DATABASE_URL,
   });
@@ -67,7 +66,7 @@ if (prod) {
   app.use(compression());
   app.use(morgan('common'));
   app.use(express.static(path.resolve(__dirname, 'build')));
-  app.get('*', (req, res) => {
+  app.get('*', (res) => {
     res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
   });
 } else {
