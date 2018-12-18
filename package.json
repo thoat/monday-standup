@@ -14,27 +14,29 @@
     "browserify-fs": "^1.0.0",
     "collections": "^5.1.5",
     "compression": "^1.7.3",
+    "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "http-proxy-middleware": "^0.19.0",
     "morgan": "^1.9.1",
-    "nodemon": "^1.18.4",
+    "pg": "^7.6.1",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
     "react-confirm-alert": "^2.0.6",
     "react-dom": "^16.5.2",
     "react-scripts": "2.0.4",
-    "shortid": "^2.2.13"
+    "uuid": "^3.3.2"
   },
   "description": "Simple web app to faciliate standups in diverse teams",
   "devDependencies": {
-    "concurrently": "^4.0.1",
     "babel-eslint": "9.0.0",
+    "concurrently": "^4.0.1",
     "eslint": "5.6.0",
     "eslint-config-airbnb": "17.1.0",
     "eslint-plugin-flowtype": "3.2.0",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-jsx-a11y": "6.1.2",
-    "eslint-plugin-react": "7.11.1"
+    "eslint-plugin-react": "7.11.1",
+    "nodemon": "^1.18.4"
   },
   "engines": {
     "node": ">= 8",
@@ -62,7 +64,8 @@
     "eject": "react-scripts eject",
     "heroku-postbuild": "yarn build",
     "heroku-prebuild": "cp ./src/data-sample.js ./src/data.js",
-    "lint": "node_modules/.bin/eslint .",
+    "lint": "node_modules/.bin/eslint ",
+    "lintall": "node_modules/.bin/eslint .",
     "server": "nodemon express.js",
     "start": "node express.js",
     "test": "react-scripts test"

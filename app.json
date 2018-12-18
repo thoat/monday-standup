@@ -3,9 +3,9 @@
   "scripts": {
   },
   "env": {
-    "PASSKEY_UNICEF_INNOV": {
+    "REACT_APP_PASSKEY": {
       "required": true
-    }
+    },
   },
   "formation": {
     "web": {
