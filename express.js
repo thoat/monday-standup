@@ -46,17 +46,22 @@ const jsonParser = bodyParser.json();
 
 // Don't forget the parser!!!
 app.post('/api/members', jsonParser, (request, response) => {
-  // if (!request.body) return response.sendStatus(400);
-  const { id, memberName, team } = request.body;
-  const INSERT_QUERY = `INSERT INTO members (rowid, name, team) VALUES ('${id}', '${memberName}', '${team}');`;
-  const db = new Client({
-    connectionString: process.env.DATABASE_URL,
-  });
-  db.connect()
-    .then(db.query(INSERT_QUERY, (err) => {
-      if (err) response.send({ msg: 'Error incurred. Change is not saved to backend.' });
-      else response.send({ msg: 'Data added successfully!' });
-    }));
+  const bd = request.body;
+  // check if body object is empty. Credit: https://stackoverflow.com/a/32108184
+  if (Object.keys(bd).length === 0 && bd.constructor === Object) {
+    response.send({ msg: 'Invalid request: empty body.' });
+  } else {
+    const { id, memberName, team } = bd;
+    const INSERT_QUERY = `INSERT INTO members (rowid, name, team) VALUES ('${id}', '${memberName}', '${team}');`;
+    const db = new Client({
+      connectionString: process.env.DATABASE_URL,
+    });
+    db.connect()
+      .then(db.query(INSERT_QUERY, (err) => {
+        if (err) response.send({ msg: 'Error incurred. Change is not saved to backend.' });
+        else response.send({ msg: 'Data added successfully!' });
+      }));
+  }
 });
 
 
