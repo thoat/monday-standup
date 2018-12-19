@@ -10,7 +10,6 @@ const constants = {
   TEAMSTR_DEV: 'Dev',
   TEAMSTR_DESIGN: 'Design',
   TEAMSTR_COMMS: 'Comms',
-  TEAMSTR_ACCSS: 'Accessibility',
   TEAMSTR_PARTNER: 'Partnerships',
   TEAMSTR_BLKCH: 'Blockchain',
   TEAMSTR_FUND: 'Fund',
@@ -22,7 +21,6 @@ const constants = {
   COLOR_DEV: ['#99ccff', '#0066cc'], // blue
   COLOR_DESIGN: ['#ff99cc', '#990099'], // fuschia
   COLOR_COMMS: ['#ffff99', '#999900'], // yellow
-  COLOR_ACCSS: ['#ff6699', '#cc0033'], // red
   COLOR_PARTNER: ['#ffcc99', '#ff9900'], // orange
   COLOR_BLKCH: ['#99ffcc', '#009966'], // lime green
   COLOR_FUND: ['#ccccff', '#663399'], // lavender
@@ -30,6 +28,7 @@ const constants = {
   COLOR_OTHER: ['#dddddd', '#dddddd'], // silver
   // Other great colors if needed:
   // COLOR_: ["#9edfdf", "#339999"] // soft cyan
+  // COLOR_: ['#ff6699', '#cc0033'], // red
 };
 export default constants;
 // [
@@ -46,7 +45,6 @@ export default constants;
 //   {memberName: "Kemma", team: "Design", isAbsent: false},
 //   {memberName: "Tracy", team: "Comms", isAbsent: false},
 //   {memberName: "Orange", team: "Comms", isAbsent: false},
-//   {memberName: "Phoebe", team: "Accessibility", isAbsent: false},
 //   {memberName: "Phoenix", team: "Partnerships", isAbsent: false},
 //   {memberName: "Tina", team: "Partnerships", isAbsent: false},
 //   {memberName: "Thea", team: "Blockchain", isAbsent: false},
