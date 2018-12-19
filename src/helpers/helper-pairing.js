@@ -120,7 +120,7 @@ export default function yieldThePairs(memberList) {
     }
     // if reaching the INITIAL_PIVOT, skip to the current pivot plus 1
     if (partner === INITIAL_PIVOT) {
-      partner = pivot + 1;
+      partner = (pivot + 1) % teams.length;
       partnerTeam = teams[partner];
     }
     const card2 = partnerTeam.pop();
