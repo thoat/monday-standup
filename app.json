@@ -5,7 +5,7 @@
   "env": {
     "REACT_APP_PASSKEY": {
       "required": true
-    },
+    }
   },
   "formation": {
     "web": {
