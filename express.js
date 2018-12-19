@@ -10,7 +10,7 @@ const app = express();
 
 const SELECT_ALL_MEMBERS_QUERY = 'SELECT * FROM members;';
 
-app.get('/api/members', (response) => {
+app.get('/api/members', (request, response) => {
   const db = new Client({
     connectionString: process.env.DATABASE_URL,
   });
@@ -57,7 +57,7 @@ app.post('/api/members', jsonParser, (request, response) => {
       connectionString: process.env.DATABASE_URL,
     });
     db.connect()
-      .then(db.query(INSERT_QUERY, (err) => {
+      .then(db.query(INSERT_QUERY, (err, res) => {
         if (err) response.send({ msg: 'Error incurred. Change is not saved to backend.' });
         else response.send({ msg: 'Data added successfully!' });
       }));
