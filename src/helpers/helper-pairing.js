@@ -67,10 +67,8 @@ export default function yieldThePairs(memberList) {
   const teamSizeHash = MEMBERS.reduce((h, member) => {
     if (!member.isAbsent) {
       numPresentMembers += 1;
-      if (!h[member.team]) {
-        h[member.team] = 0;
-      }
-      h[member.team] += 1;
+      // eslint-disable-next-line no-param-reassign
+      h[member.team] = (h[member.team] || 0) + 1;
     }
     return h;
   }, {});
@@ -81,6 +79,7 @@ export default function yieldThePairs(memberList) {
     // b-a cuz we want to sort decreasingly
     .sorted((a, b) => b[1] - a[1])
     .reduce((hash, elem, idx) => {
+      // eslint-disable-next-line no-param-reassign
       hash[elem[0]] = idx; // {key: team name, value: index in the sizeArray}
       return hash;
     }, {});
@@ -90,10 +89,7 @@ export default function yieldThePairs(memberList) {
   MEMBERS.forEach((member) => {
     if (!member.isAbsent) {
       const teamName = member.team;
-      if (!teams[teamIndex[teamName]]) {
-        teams[teamIndex[teamName]] = new CustomArray();
-      }
-      teams[teamIndex[teamName]].push(member);
+      teams[teamIndex[teamName]] = (teams[teamIndex[teamName]] || new CustomArray()).push(member);
     }
   });
 
