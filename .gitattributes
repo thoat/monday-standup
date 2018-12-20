@@ -1,1 +1,4 @@
 **.* text eol=lf
+
+# prevent binary image files from being normalized. Credit: https://stackoverflow.com/a/5009496
+*.PNG -text 
