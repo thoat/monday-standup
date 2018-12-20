@@ -13,16 +13,18 @@ export default class MemberIntakeForm extends Component {
 
   constructor(props) {
     super(props);
+    const { options } = this.props;
     this.state = {
       memberName: '',
-      team: this.props.options[0].name, /* options[0] will yield an object
+      team: options[0].name, /* options[0] will yield an object
       {name: ABC, id: DEF} so we here have to extract the field "name" */
     };
   }
 
   handleClose = (e) => {
-    this.props.onClose();
     e.preventDefault();
+    const { onClose } = this.props;
+    onClose();
     this.resetState();
   }
 
@@ -34,25 +36,30 @@ export default class MemberIntakeForm extends Component {
   }
 
   handleSubmit = (e) => {
-    if (!this.state.memberName) {
+    e.preventDefault();
+    const { memberName } = this.state;
+    if (!memberName) {
       // empty name aka form is invalid, so we do nothing
       return;
     }
-    this.props.onSubmit(this.state);
-    e.preventDefault();
+    const { onSubmit } = this.props;
+    onSubmit(this.state);
     this.resetState();
   }
 
   resetState() {
+    const { options } = this.props;
     this.setState({
       memberName: '',
-      team: this.props.options[0].name,
+      team: options[0].name,
     }); /* options[0] will yield an object {name: ABC, id: DEF} so we here have
     to extract the field "name" */
   }
 
   render() {
-    const options = this.props.options.map(opt => <option key={opt.id}>{opt.name}</option>);
+    let { options } = this.props;
+    options = options.map(opt => <option key={opt.id}>{opt.name}</option>);
+    const { memberName, team } = this.state;
     return (
       <div className="modal">
         <form>
@@ -61,14 +68,14 @@ export default class MemberIntakeForm extends Component {
             name="memberName" // this value must be in-sync w/ the property name, or else input won't be recorded
             type="text"
             required
-            value={this.state.memberName}
+            value={memberName}
             onChange={this.handleInputChange}
           />
           <br />
           <label>Team: </label>
           <select
             name="team"
-            value={this.state.team}
+            value={team}
             onChange={this.handleInputChange}
           >
             {options}

@@ -82,29 +82,30 @@ export default class CardDisplayFrame extends Component {
   }
 
   toggleAbsent = (person) => {
-    const updatedCardArray = [...this.state.cardArray];
+    const { cardArray } = this.state;
+    const updatedCardArray = [...cardArray];
     const targetIndex = updatedCardArray.indexOf(person);
     updatedCardArray[targetIndex].isAbsent = !person.isAbsent;
     this.setState({ cardArray: updatedCardArray });
   }
 
   pairCards = () => {
-    const result = yieldThePairs(this.state.cardArray);
+    const { cardArray } = this.state;
+    const { onModeSwitch } = this.props;
+    const result = yieldThePairs(cardArray);
     const resultWithIds = result.map(pair => createNewProfile(pair));
     this.setState({ cardPairs: resultWithIds });
-    this.props.onModeSwitch(MODE_PAIRED);
+    onModeSwitch(MODE_PAIRED);
   }
 
-  unpairCards = () => {
-    this.props.onModeSwitch(MODE_START);
+  backToStartMode = () => {
+    const { onModeSwitch } = this.props;
+    onModeSwitch(MODE_START);
   }
 
   enterRemove = () => {
-    this.props.onModeSwitch(MODE_REMOVE);
-  }
-
-  cancelRemove = () => {
-    this.props.onModeSwitch(MODE_START);
+    const { onModeSwitch } = this.props;
+    onModeSwitch(MODE_REMOVE);
   }
 
   removeCard = (person) => {
@@ -115,7 +116,8 @@ export default class CardDisplayFrame extends Component {
         {
           label: 'Yes',
           onClick: () => {
-            const updatedCardArray = [...this.state.cardArray];
+            const { cardArray } = this.state;
+            const updatedCardArray = [...cardArray];
             const targetIndex = updatedCardArray.indexOf(person);
             updatedCardArray.splice(targetIndex, 1);
             this.setState({ cardArray: updatedCardArray });
@@ -135,7 +137,8 @@ export default class CardDisplayFrame extends Component {
   }
 
   handleMemberIntake = (values) => {
-    const updatedCardArray = [...this.state.cardArray];
+    const { cardArray } = this.state;
+    const updatedCardArray = [...cardArray];
     const newMember = { ...values, id: uuidv4(), isAbsent: false };
     updatedCardArray.push(newMember);
     this.setState({ cardArray: updatedCardArray, formOpen: false });
@@ -151,7 +154,8 @@ export default class CardDisplayFrame extends Component {
   // eslint-disable-next-line consistent-return
   render() {
     const { appMode } = this.props;
-    let cards = this.state.cardArray;
+    const { formOpen, teamNames, cardPairs } = this.state;
+    let { cardArray: cards } = this.state;
     switch (appMode) {
       case MODE_START:
         cards = cards.map(card => <Card key={card.id} person={card} onClick={this.toggleAbsent} />);
@@ -168,9 +172,9 @@ export default class CardDisplayFrame extends Component {
               Remove Member
             </button>
             <div>
-              {this.state.formOpen && (
+              {formOpen && (
                 <MemberIntakeForm
-                  options={this.state.teamNames}
+                  options={teamNames}
                   onSubmit={this.handleMemberIntake}
                   onClose={this.closeForm}
                 />
@@ -179,7 +183,7 @@ export default class CardDisplayFrame extends Component {
           </div>
         );
       case MODE_PAIRED:
-        cards = this.state.cardPairs.map(pair => (
+        cards = cardPairs.map(pair => (
           <div className="card-pair-block" key={pair.id} style={{ display: 'block' }}>
             <Card person={pair.card1} />
             <Card person={pair.card2} />
@@ -191,7 +195,7 @@ export default class CardDisplayFrame extends Component {
             <button
               className="cmd-btn"
               type="button"
-              onClick={this.unpairCards}
+              onClick={this.backToStartMode}
             >
               Dismiss
             </button>
@@ -202,7 +206,7 @@ export default class CardDisplayFrame extends Component {
         return (
           <div>
             <div className="card-zone__remove">{cards}</div>
-            <button className="cmd-btn" type="button" onClick={this.cancelRemove}>Cancel</button>
+            <button className="cmd-btn" type="button" onClick={this.backToStartMode}>Cancel</button>
           </div>
         );
       default:
