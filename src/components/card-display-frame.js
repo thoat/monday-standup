@@ -111,7 +111,7 @@ export default class CardDisplayFrame extends Component {
   removeCard = (person) => {
     confirmAlert({
       title: '',
-      message: `Are you sure you want to remove ${person.name}?`,
+      message: `Are you sure you want to remove ${person.memberName}?`,
       buttons: [
         {
           label: 'Yes',
