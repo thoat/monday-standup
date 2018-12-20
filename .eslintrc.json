@@ -17,7 +17,10 @@
     "import/no-named-as-default-member": "off",
     "indent": [
       "error",
-      2
+      2,
+      {
+        "SwitchCase": 1
+      }
     ],
     "no-alert": "off",
     "no-unused-vars": "warn",

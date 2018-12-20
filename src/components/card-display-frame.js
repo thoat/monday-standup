@@ -160,13 +160,13 @@ export default class CardDisplayFrame extends Component {
             <div className="card-zone__start">{cards}</div>
             <button className="cmd-btn" type="button" onClick={this.pairCards}>
               Pair Up!
-          </button>
+            </button>
             <button className="cmd-btn" type="button" onClick={this.addMember}>
               Add Member
-          </button>
+            </button>
             <button className="cmd-btn" type="button" onClick={this.enterRemove}>
               Remove Member
-          </button>
+            </button>
             <div>
               {this.state.formOpen && (
                 <MemberIntakeForm
