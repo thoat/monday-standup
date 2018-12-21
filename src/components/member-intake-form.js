@@ -63,23 +63,29 @@ export default class MemberIntakeForm extends Component {
     return (
       <div className="modal">
         <form>
-          <label>Name: </label>
-          <input
-            name="memberName" // this value must be in-sync w/ the property name, or else input won't be recorded
-            type="text"
-            required
-            value={memberName}
-            onChange={this.handleInputChange}
-          />
+          <label htmlFor="nameTextInput">
+            Name:
+            <input
+              id="nameTextInput"
+              name="memberName" // this value must be in-sync w/ the property name, or else input won't be recorded
+              type="text"
+              required
+              value={memberName}
+              onChange={this.handleInputChange}
+            />
+          </label>
           <br />
-          <label>Team: </label>
-          <select
-            name="team"
-            value={team}
-            onChange={this.handleInputChange}
-          >
-            {options}
-          </select>
+          <label htmlFor="teamSelect">
+            Team:
+            <select
+              id="teamSelect"
+              name="team"
+              value={team}
+              onChange={this.handleInputChange}
+            >
+              {options}
+            </select>
+          </label>
           <br />
           <div className="form-button-group">
             <button onClick={this.handleSubmit}>Save</button>
