@@ -89,7 +89,10 @@ export default function yieldThePairs(memberList) {
   MEMBERS.forEach((member) => {
     if (!member.isAbsent) {
       const teamName = member.team;
-      teams[teamIndex[teamName]] = (teams[teamIndex[teamName]] || new CustomArray()).push(member);
+      if (!teams[teamIndex[teamName]]) {
+        teams[teamIndex[teamName]] = new CustomArray();
+      }
+      teams[teamIndex[teamName]].push(member);
     }
   });
 
