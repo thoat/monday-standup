@@ -4,6 +4,6 @@ sudo: false
 install:
   - yarn
 script:
-  - yarn lintall 
   - cp ./src/data-sample.js ./src/data.js
+  - yarn lintall 
   - yarn test
