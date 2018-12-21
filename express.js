@@ -57,7 +57,7 @@ app.post('/api/members', jsonParser, (request, response) => {
       connectionString: process.env.DATABASE_URL,
     });
     db.connect()
-      .then(db.query(INSERT_QUERY, (err, res) => {
+      .then(db.query(INSERT_QUERY, (err) => {
         if (err) response.send({ msg: 'Error incurred. Change is not saved to backend.' });
         else response.send({ msg: 'Data added successfully!' });
       }));
