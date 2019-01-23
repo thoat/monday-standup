@@ -16,7 +16,8 @@ import Card from './card';
 import MemberIntakeForm from './member-intake-form';
 
 // === Constants and global functions ===
-function createNewProfile(target) {
+jest.mock('uuid/v4', () => () => '97812'); // credit: https://github.com/facebook/jest/issues/2172#issuecomment-393349332
+export function createNewProfile(target) {
   return { ...target, id: uuidv4() };
 }
 function saveRemoveChanges(data) {
