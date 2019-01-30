@@ -1,13 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Card from './card';
+import CardContainer from '../containers/card-container';
 import CommandButton from './command-button';
 
 const AppBodyRemove = ({ cardData, onCardClick, onCancel }) => {
   const doCancel = () => onCancel();
   const doCardAction = person => onCardClick(person);
-  const cards = cardData.map(card => <Card key={card.id} person={card} onClick={doCardAction} />);
+  const cards = cardData.map(
+    card => <CardContainer key={card.id} person={card} onClick={doCardAction} />
+  );
 
   return (
     <div>

@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Card from './card';
+import CardContainer from '../containers/card-container';
 import CommandButton from './command-button';
 
 const AppBodyPaired = ({ pairData, onDismiss }) => {
   const doDismiss = () => onDismiss();
   const cards = pairData.map(pair => (
     <div className="card-pair-block" key={pair.id} style={{ display: 'block' }}>
-      <Card person={pair.card1} />
-      <Card person={pair.card2} />
+      <CardContainer person={pair.card1} />
+      <CardContainer person={pair.card2} />
     </div>
   ));
   return (
