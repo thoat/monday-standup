@@ -15,8 +15,12 @@ const AppBodyRemove = ({ cardData, onCardClick, onCancel }) => {
       <CommandButton text="Cancel" onClick={doCancel} />
     </div>
   );
-};/* eslint-disable react/require-default-props */
+};
 AppBodyRemove.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  cardData: PropTypes.array.isRequired,
+  onCardClick: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 export default AppBodyRemove;

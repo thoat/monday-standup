@@ -22,8 +22,13 @@ const AppBodyStart = ({
     </div>
   );
 };
-
 AppBodyStart.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  cardData: PropTypes.array.isRequired,
+  onCardClick: PropTypes.func.isRequired,
+  onPair: PropTypes.func.isRequired,
+  onAdd: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
 };
 
 export default AppBodyStart;

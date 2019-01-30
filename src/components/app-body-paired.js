@@ -18,8 +18,11 @@ const AppBodyPaired = ({ pairData, onDismiss }) => {
       <CommandButton text="Dismiss" onClick={doDismiss} />
     </div>
   );
-};/* eslint-disable react/require-default-props */
+};
 AppBodyPaired.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  pairData: PropTypes.array.isRequired,
+  onDismiss: PropTypes.func.isRequired,
 };
 
 export default AppBodyPaired;

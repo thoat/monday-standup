@@ -8,7 +8,9 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 /* TODO: edit this file to style the dialog box: https://github.com/GA-MO/react-confirm-alert/blob/master/src/react-confirm-alert.css */
 
 import constants from '../constants';
-import { createNewProfile, fetchMemberList, saveAddChanges, saveRemoveChanges } from '../helpers/helper-data';
+import {
+  createNewProfile, fetchMemberList, saveAddChanges, saveRemoveChanges,
+} from '../helpers/helper-data';
 import yieldThePairs from '../helpers/helper-pairing';
 import AppBodyPaired from '../components/app-body-paired';
 import AppBodyRemove from '../components/app-body-remove';
