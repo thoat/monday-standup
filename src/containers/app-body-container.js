@@ -15,7 +15,7 @@ import yieldThePairs from '../helpers/helper-pairing';
 import AppBodyPaired from '../components/app-body-paired';
 import AppBodyRemove from '../components/app-body-remove';
 import AppBodyStart from '../components/app-body-start';
-import MemberIntakeForm from '../components/member-intake-form';
+import IntakeForm from '../components/intake-form';
 
 const TEAMS = Object.entries(constants)
   // filter for constants entries that are team names; entry[0] is the key
@@ -23,7 +23,7 @@ const TEAMS = Object.entries(constants)
   .map(entry => entry[1]); // get just the team names; entry[1] is the value
 const { MODE_START, MODE_PAIRED, MODE_REMOVE } = constants;
 
-export default class CardDisplayFrame extends Component {
+export default class AppBodyContainer extends Component {
   static propTypes = {
     appMode: PropTypes.string.isRequired,
     switchModeTo: PropTypes.func.isRequired,
@@ -151,7 +151,7 @@ export default class CardDisplayFrame extends Component {
         </div>
         <div>
           {formOpen && (
-            <MemberIntakeForm
+            <IntakeForm
               options={teamNames}
               onSubmit={this.handleMemberIntake}
               onClose={this.closeForm}

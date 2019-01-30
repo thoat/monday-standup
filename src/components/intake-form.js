@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-export default class MemberIntakeForm extends Component {
+export default class IntakeForm extends Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,

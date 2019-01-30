@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './app.css';
 
 import constants from './constants';
-import AppBody from './containers/app-body';
+import AppBodyContainer from './containers/app-body-container';
 import AppHeader from './components/app-header';
 
 const { MODE_START } = constants;
@@ -23,7 +23,7 @@ export default class App extends Component {
     return (
       <div className="App">
         <AppHeader appMode={appMode} />
-        <AppBody appMode={appMode} switchModeTo={this.handleModeSwitch} />
+        <AppBodyContainer appMode={appMode} switchModeTo={this.handleModeSwitch} />
       </div>
     );
   }
