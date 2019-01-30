@@ -1,12 +1,9 @@
-// === Dependency imports ===
 import PropTypes from 'prop-types';
 import React from 'react';
 
-// === Local imports ===
 import constants from '../constants';
 import getCardColors from '../helpers/helper-color';
 
-// ============ START OF COMPONENT ==================
 const Card = ({ person, onClick }) => {
   const handleOnClick = () => onClick(person);
   if (!person) { // render a white card if no profile associated

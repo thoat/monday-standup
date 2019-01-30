@@ -1,8 +1,6 @@
-// === Dependency imports ===
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-// ============ START OF COMPONENT ==================
 export default class MemberIntakeForm extends Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,

@@ -1,20 +1,19 @@
-// === Dependency imports ===
 import PropTypes from 'prop-types';
 import React from 'react';
 
-// === Local imports ===
 import constants from '../constants';
 
-// ============ START OF COMPONENT ==================
-const SiteInstruction = ({ appMode }) => (
-  <div>
+const AppHeader = ({ appMode }) => (
+  <header>
+    <h1>OI Monday StandUp</h1>
     <h2>{appMode === constants.MODE_START && 'Click a card to toggle absence'}</h2>
     <h2>{appMode === constants.MODE_REMOVE && 'Choose card to remove'}</h2>
-  </div>
+    {/* <SiteInstruction appMode={appMode} /> */}
+  </header>
 );
 
-SiteInstruction.propTypes = {
+AppHeader.propTypes = {
   appMode: PropTypes.string.isRequired,
 };
 
-export default SiteInstruction;
+export default AppHeader;

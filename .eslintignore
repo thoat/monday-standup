@@ -2,3 +2,4 @@
 src/index.js 
 src/serviceWorker.js
 build/
+coverage/
