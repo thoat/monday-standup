@@ -8,19 +8,13 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 /* TODO: edit this file to style the dialog box: https://github.com/GA-MO/react-confirm-alert/blob/master/src/react-confirm-alert.css */
 
 import constants from '../constants';
-import {
-  createNewProfile, fetchMemberList, saveAddChanges, saveRemoveChanges,
-} from '../helpers/helper-data';
+import { fetchMemberList, saveRemoveChanges } from '../helpers/helper-data';
 import yieldThePairs from '../helpers/helper-pairing';
 import AppBodyPaired from '../components/app-body-paired';
 import AppBodyRemove from '../components/app-body-remove';
 import AppBodyStart from '../components/app-body-start';
-import IntakeForm from '../components/intake-form';
+import IntakeFormContainer from './intake-form-container';
 
-const TEAMS = Object.entries(constants)
-  // filter for constants entries that are team names; entry[0] is the key
-  .filter(entry => entry[0].includes('TEAMSTR'))
-  .map(entry => entry[1]); // get just the team names; entry[1] is the value
 const { MODE_START, MODE_PAIRED, MODE_REMOVE } = constants;
 
 export default class AppBodyContainer extends Component {
@@ -33,7 +27,6 @@ export default class AppBodyContainer extends Component {
     super(props);
     this.state = {
       cardArray: [],
-      teamNames: TEAMS.map(team => createNewProfile({ name: team })),
       cardPairs: [],
       formOpen: false,
     };
@@ -41,25 +34,10 @@ export default class AppBodyContainer extends Component {
 
   componentDidMount() {
     if (!process.env.REACT_APP_PASSKEY) { // demo app
-      const data = constants.members.map(member => createNewProfile(member));
+      const data = constants.members.map(member => ({ ...member, id: uuidv4() }));
       this.setState({ cardArray: data });
-    // } else this.fetchMemberList(); // official app
     } else fetchMemberList().then(data => this.setState({ cardArray: data })); // official app
   }
-
-  // fetchMemberList = () => {
-  //   fetch('/api/members', { method: 'GET' })
-  //     .then(response => response.json()) // can't skip this!
-  //     .then((data) => {
-  //       // Rename object keys. Credit: https://stackoverflow.com/a/50101979
-  //       data.forEach((member) => {
-  //         delete Object.assign(member, { id: member.rowid }).rowid;
-  //         delete Object.assign(member, { memberName: member.name }).name;
-  //         delete Object.assign(member, { isAbsent: member.is_absent }).is_absent;
-  //       });
-  //       this.setState({ cardArray: data });
-  //     });
-  // }
 
   toggleAbsent = (person) => {
     const { cardArray } = this.state;
@@ -69,23 +47,11 @@ export default class AppBodyContainer extends Component {
     this.setState({ cardArray: updatedCardArray });
   }
 
-  pairCards = () => {
+  addCard = (newMember) => {
     const { cardArray } = this.state;
-    const { switchModeTo } = this.props;
-    const result = yieldThePairs(cardArray);
-    const resultWithIds = result.map(pair => createNewProfile(pair));
-    this.setState({ cardPairs: resultWithIds });
-    switchModeTo(MODE_PAIRED);
-  }
-
-  backToStartMode = () => {
-    const { switchModeTo } = this.props;
-    switchModeTo(MODE_START);
-  }
-
-  enterRemove = () => {
-    const { switchModeTo } = this.props;
-    switchModeTo(MODE_REMOVE);
+    const updatedCardArray = [...cardArray];
+    updatedCardArray.push(newMember);
+    this.setState({ cardArray: updatedCardArray, formOpen: false });
   }
 
   removeCard = (person) => {
@@ -112,19 +78,27 @@ export default class AppBodyContainer extends Component {
     });
   }
 
-  addMember = () => {
-    this.setState({ formOpen: true });
+  pairCards = () => {
+    const { cardArray } = this.state;
+    const { switchModeTo } = this.props;
+    const result = yieldThePairs(cardArray);
+    const resultWithIds = result.map(pair => ({ ...pair, id: uuidv4() }));
+    this.setState({ cardPairs: resultWithIds });
+    switchModeTo(MODE_PAIRED);
   }
 
-  handleMemberIntake = (values) => {
-    const { cardArray } = this.state;
-    const updatedCardArray = [...cardArray];
-    const newMember = { ...values, id: uuidv4(), isAbsent: false };
-    updatedCardArray.push(newMember);
-    this.setState({ cardArray: updatedCardArray, formOpen: false });
-    if (process.env.REACT_APP_PASSKEY) {
-      saveAddChanges({ ...values, id: newMember.id });
-    }
+  backToStartMode = () => {
+    const { switchModeTo } = this.props;
+    switchModeTo(MODE_START);
+  }
+
+  enterRemove = () => {
+    const { switchModeTo } = this.props;
+    switchModeTo(MODE_REMOVE);
+  }
+
+  openForm = () => {
+    this.setState({ formOpen: true });
   }
 
   closeForm = () => {
@@ -133,9 +107,7 @@ export default class AppBodyContainer extends Component {
 
   render() {
     const { appMode } = this.props;
-    const {
-      cardArray, formOpen, teamNames, cardPairs,
-    } = this.state;
+    const { cardArray, cardPairs, formOpen } = this.state;
     return (
       <div>
         <div>
@@ -144,16 +116,15 @@ export default class AppBodyContainer extends Component {
               cardData={cardArray}
               onCardClick={this.toggleAbsent}
               onPair={this.pairCards}
-              onAdd={this.addMember}
+              onAdd={this.openForm}
               onRemove={this.enterRemove}
             />
           )}
         </div>
         <div>
           {formOpen && (
-            <IntakeForm
-              options={teamNames}
-              onSubmit={this.handleMemberIntake}
+            <IntakeFormContainer
+              addToFrontEnd={this.addCard}
               onClose={this.closeForm}
             />
           )}

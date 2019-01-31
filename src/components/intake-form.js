@@ -19,18 +19,18 @@ export default class IntakeForm extends Component {
     };
   }
 
-  handleClose = (e) => {
-    e.preventDefault();
-    const { onClose } = this.props;
-    onClose();
-    this.resetState();
-  }
-
   handleInputChange = (e) => {
     const attribute = e.target.name;
     const newValue = e.target.value;
     this.setState({ [attribute]: newValue });
     // console.log([attribute, newValue])
+  }
+
+  handleClose = (e) => {
+    e.preventDefault();
+    const { onClose } = this.props;
+    onClose();
+    this.resetState();
   }
 
   handleSubmit = (e) => {

@@ -1,21 +1,3 @@
-import uuidv4 from 'uuid/v4';
-
-// import { createNewProfile } from './helper-data';
-
-// // jest.mock('./card-display-frame', () => ({
-// //   createNewProfile: jest.fn(x => ({ ...x, id: '1' })),
-// // }));
-
-// test('creates a new profile with id included', () => {
-//   expect(createNewProfile({ one: 11, two: 22 }))
-//     .toEqual({ one: 11, two: 22, id: '97812' });
-// });
-
-// jest.mock('uuid/v4', () => () => '97812'); // credit: https://github.com/facebook/jest/issues/2172#issuecomment-393349332
-export function createNewProfile(target) {
-  return { ...target, id: uuidv4() };
-}
-
 export function fetchMemberList() {
   fetch('/api/members', { method: 'GET' })
     .then(response => response.json()) // can't skip this!
@@ -26,7 +8,6 @@ export function fetchMemberList() {
         delete Object.assign(member, { memberName: member.name }).name;
         delete Object.assign(member, { isAbsent: member.is_absent }).is_absent;
       });
-      // this.setState({ cardArray: data });
       return data;
     });
 }
