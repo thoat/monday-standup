@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import { func } from 'prop-types';
 import React from 'react';
 import uuidv4 from 'uuid/v4';
 
@@ -26,8 +26,8 @@ const IntakeFormContainer = ({ addToFrontEnd, onClose }) => {
   );
 };
 IntakeFormContainer.propTypes = {
-  addToFrontEnd: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
+  addToFrontEnd: func.isRequired,
+  onClose: func.isRequired,
 };
 
 export default IntakeFormContainer;

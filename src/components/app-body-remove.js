@@ -1,7 +1,8 @@
-import PropTypes from 'prop-types';
+import { arrayOf, func } from 'prop-types';
 import React from 'react';
 
 import CardContainer from '../containers/card-container';
+import { cardType } from '../prop-types';
 import CommandButton from './command-button';
 
 const AppBodyRemove = ({ cardData, onCardClick, onCancel }) => {
@@ -19,10 +20,9 @@ const AppBodyRemove = ({ cardData, onCardClick, onCancel }) => {
   );
 };
 AppBodyRemove.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  cardData: PropTypes.array.isRequired,
-  onCardClick: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
+  cardData: arrayOf(cardType).isRequired,
+  onCardClick: func.isRequired,
+  onCancel: func.isRequired,
 };
 
 export default AppBodyRemove;

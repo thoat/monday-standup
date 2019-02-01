@@ -1,16 +1,23 @@
-import PropTypes from 'prop-types';
+import { func, shape, string } from 'prop-types';
 import React from 'react';
 
-const Card = ({ onClick, colorStyle, text }) => (
+const Card = ({ colorStyle, onClick, text }) => (
   <button className="card" onClick={onClick} style={colorStyle}>
     {text}
   </button>
-);/* eslint-disable react/require-default-props */
+);
+Card.defaultProps = {
+  onClick: () => null,
+  text: '',
+};
 Card.propTypes = {
-  onClick: PropTypes.func,
-  // eslint-disable-next-line react/forbid-prop-types
-  colorStyle: PropTypes.object.isRequired,
-  text: PropTypes.string,
+  colorStyle: shape({
+    backgroundColor: string.isRequired,
+    borderColor: string.isRequired,
+    color: string,
+  }).isRequired,
+  onClick: func,
+  text: string,
 };
 
 export default Card;

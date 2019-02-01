@@ -1,7 +1,8 @@
-import PropTypes from 'prop-types';
+import { func } from 'prop-types';
 import React from 'react';
 
 import Card from '../components/card';
+import { cardType } from '../prop-types';
 import constants from '../constants';
 import getCardColors from '../helpers/helper-color';
 
@@ -30,11 +31,14 @@ const CardContainer = ({ person, onClick }) => {
   return (
     <Card onClick={handleOnClick} colorStyle={colorStyle} text={textValue} />
   );
-};/* eslint-disable react/require-default-props */
+};
+CardContainer.defaultProps = {
+  onClick: () => null,
+  person: undefined,
+};
 CardContainer.propTypes = {
-  onClick: PropTypes.func,
-  // eslint-disable-next-line react/forbid-prop-types
-  person: PropTypes.object,
+  onClick: func,
+  person: cardType,
 };
 
 export default CardContainer;

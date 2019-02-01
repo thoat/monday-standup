@@ -1,12 +1,15 @@
-import PropTypes from 'prop-types';
+// eslint-disable-next-line object-curly-newline
+import { arrayOf, func, shape, string } from 'prop-types';
 import React, { Component } from 'react';
 
 export default class IntakeForm extends Component {
   static propTypes = {
-    onClose: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    options: PropTypes.array.isRequired,
+    onClose: func.isRequired,
+    onSubmit: func.isRequired,
+    options: arrayOf(shape({
+      name: string.isRequired,
+      id: string.isRequired,
+    })).isRequired,
   };
 
   constructor(props) {

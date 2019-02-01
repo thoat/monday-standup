@@ -1,5 +1,5 @@
 import { confirmAlert } from 'react-confirm-alert';
-import PropTypes from 'prop-types';
+import { func, string } from 'prop-types';
 import React, { Component } from 'react';
 import uuidv4 from 'uuid/v4';
 
@@ -19,8 +19,8 @@ const { MODE_START, MODE_PAIRED, MODE_REMOVE } = constants;
 
 export default class AppBodyContainer extends Component {
   static propTypes = {
-    appMode: PropTypes.string.isRequired,
-    switchModeTo: PropTypes.func.isRequired,
+    appMode: string.isRequired,
+    switchModeTo: func.isRequired,
   }
 
   constructor(props) {

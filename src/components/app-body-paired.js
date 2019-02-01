@@ -1,7 +1,8 @@
-import PropTypes from 'prop-types';
+import { arrayOf, func, shape } from 'prop-types';
 import React from 'react';
 
 import CardContainer from '../containers/card-container';
+import { cardType } from '../prop-types';
 import CommandButton from './command-button';
 
 const AppBodyPaired = ({ pairData, onDismiss }) => {
@@ -20,9 +21,11 @@ const AppBodyPaired = ({ pairData, onDismiss }) => {
   );
 };
 AppBodyPaired.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  pairData: PropTypes.array.isRequired,
-  onDismiss: PropTypes.func.isRequired,
+  pairData: arrayOf(shape({
+    card1: cardType.isRequired,
+    card2: cardType,
+  })).isRequired,
+  onDismiss: func.isRequired,
 };
 
 export default AppBodyPaired;

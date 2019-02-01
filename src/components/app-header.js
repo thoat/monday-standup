@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import { string } from 'prop-types';
 import React from 'react';
 
 import constants from '../constants';
@@ -11,7 +11,7 @@ const AppHeader = ({ appMode }) => (
   </header>
 );
 AppHeader.propTypes = {
-  appMode: PropTypes.string.isRequired,
+  appMode: string.isRequired,
 };
 
 export default AppHeader;
